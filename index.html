@@ -1,815 +1,1228 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<!DOCTYPE html><html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#080b24">
-<title>تحدي المبرمج الصغير 3.0 | AmnaTech</title>
-
-<style>
-*{box-sizing:border-box;margin:0;padding:0}
+<title>تحدي المبرمج الصغير 3.0 | AmnaTech</title><style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
 
 :root{
- --bg:#07091d;
- --panel:#101532;
- --panel2:#151b40;
- --gold:#ffd54a;
- --gold2:#ff9f1c;
- --cyan:#36d9ff;
- --green:#35e58b;
- --red:#ff5570;
- --text:#f6f8ff;
- --muted:#9ba6c9;
- --border:rgba(255,255,255,.12);
- --shadow:0 20px 60px rgba(0,0,0,.45);
+    --bg:#070a20;
+    --card:#111735;
+    --card2:#171e43;
+    --gold:#ffd54a;
+    --gold2:#ff9f1c;
+    --blue:#35d9ff;
+    --green:#31df88;
+    --red:#ff526d;
+    --white:#f8faff;
+    --muted:#aab3d0;
 }
 
 html,body{
- width:100%;
- min-height:100%;
- background:var(--bg);
- color:var(--text);
- font-family:Tahoma,Arial,sans-serif;
+    min-height:100%;
+    background:var(--bg);
+    color:var(--white);
+    font-family:Tahoma,Arial,sans-serif;
 }
 
 body{
- overflow-x:hidden;
+    overflow-x:hidden;
 }
 
-button,input{
- font-family:inherit;
+button,
+input{
+    font-family:inherit;
 }
 
 button{
- cursor:pointer;
- border:0;
-}
-
-#particles{
- position:fixed;
- inset:0;
- pointer-events:none;
- overflow:hidden;
- z-index:0;
-}
-
-.particle{
- position:absolute;
- width:4px;
- height:4px;
- border-radius:50%;
- background:rgba(54,217,255,.55);
- animation:float linear infinite;
-}
-
-@keyframes float{
- from{transform:translateY(110vh) scale(.5);opacity:0}
- 20%{opacity:1}
- 80%{opacity:.8}
- to{transform:translateY(-20vh) scale(1.4);opacity:0}
+    cursor:pointer;
 }
 
 .screen{
- position:relative;
- z-index:1;
- min-height:100vh;
- display:none;
- align-items:center;
- justify-content:center;
- padding:20px;
+    display:none;
+    min-height:100vh;
+    padding:20px;
+    align-items:center;
+    justify-content:center;
+    position:relative;
+    z-index:2;
 }
 
 .screen.active{
- display:flex;
+    display:flex;
 }
 
 .container{
- width:min(1100px,100%);
- margin:auto;
+    width:min(1100px,100%);
+    margin:auto;
 }
 
-.glass{
- background:linear-gradient(145deg,rgba(22,29,67,.94),rgba(8,12,34,.94));
- border:1px solid var(--border);
- box-shadow:var(--shadow);
- backdrop-filter:blur(15px);
- border-radius:28px;
+.card{
+    background:linear-gradient(145deg,rgba(24,31,70,.97),rgba(8,12,35,.97));
+    border:1px solid rgba(255,255,255,.12);
+    border-radius:28px;
+    box-shadow:0 20px 60px rgba(0,0,0,.45);
+}
+
+#stars{
+    position:fixed;
+    inset:0;
+    z-index:0;
+    pointer-events:none;
+    overflow:hidden;
+}
+
+.star{
+    position:absolute;
+    width:4px;
+    height:4px;
+    border-radius:50%;
+    background:#fff;
+    opacity:.4;
+    animation:starMove linear infinite;
+}
+
+@keyframes starMove{
+    from{
+        transform:translateY(110vh);
+        opacity:0;
+    }
+    20%{
+        opacity:.8;
+    }
+    80%{
+        opacity:.6;
+    }
+    to{
+        transform:translateY(-20vh);
+        opacity:0;
+    }
 }
 
 .logo{
- width:105px;
- height:105px;
- margin:0 auto 20px;
- border-radius:30px;
- display:flex;
- align-items:center;
- justify-content:center;
- font-size:55px;
- background:linear-gradient(145deg,#ffd54a,#ff8a00);
- box-shadow:0 0 50px rgba(255,181,45,.3);
- animation:pulseLogo 2.5s infinite;
+    width:110px;
+    height:110px;
+    margin:0 auto 22px;
+    border-radius:32px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:58px;
+    background:linear-gradient(135deg,#ffe46b,#ff9517);
+    box-shadow:0 0 45px rgba(255,190,45,.28);
+    animation:logoPulse 2.5s infinite;
 }
 
-@keyframes pulseLogo{
- 0%,100%{transform:scale(1)}
- 50%{transform:scale(1.06)}
+@keyframes logoPulse{
+    50%{
+        transform:scale(1.06);
+    }
 }
 
-.title{
- text-align:center;
- font-size:clamp(32px,7vw,68px);
- font-weight:900;
- background:linear-gradient(90deg,#fff,#ffd54a,#36d9ff,#fff);
- background-size:250%;
- -webkit-background-clip:text;
- color:transparent;
- animation:titleMove 5s linear infinite;
+.main-title{
+    text-align:center;
+    font-size:clamp(34px,7vw,68px);
+    font-weight:900;
+    background:linear-gradient(90deg,#fff,#ffd54a,#35d9ff,#fff);
+    background-size:250%;
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+    animation:titleMove 5s linear infinite;
 }
 
 @keyframes titleMove{
- to{background-position:250% center}
+    to{
+        background-position:250%;
+    }
 }
 
 .subtitle{
- text-align:center;
- color:var(--muted);
- font-size:clamp(15px,3vw,20px);
- margin-top:12px;
+    text-align:center;
+    color:var(--muted);
+    line-height:1.8;
 }
 
-.hero-card{
- max-width:760px;
- margin:auto;
- padding:40px 25px;
- text-align:center;
+.start-card{
+    width:min(780px,100%);
+    padding:45px 25px;
+    text-align:center;
 }
 
-.primary-btn{
- display:inline-flex;
- align-items:center;
- justify-content:center;
- gap:10px;
- margin-top:30px;
- padding:17px 42px;
- border-radius:18px;
- font-size:20px;
- font-weight:900;
- color:#171100;
- background:linear-gradient(135deg,#ffe36b,#ffab19);
- box-shadow:0 10px 30px rgba(255,180,40,.25);
- transition:.2s;
+.start-card .subtitle{
+    margin-top:18px;
+    font-size:18px;
 }
 
-.primary-btn:hover{
- transform:translateY(-3px) scale(1.02);
- box-shadow:0 15px 40px rgba(255,180,40,.4);
+.primary{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    margin-top:30px;
+    padding:17px 42px;
+    border:0;
+    border-radius:18px;
+    background:linear-gradient(135deg,#ffe36b,#ff9e18);
+    color:#171000;
+    font-size:20px;
+    font-weight:900;
+    box-shadow:0 12px 30px rgba(255,174,35,.25);
+    transition:.2s;
 }
 
-.secondary-btn{
- padding:13px 25px;
- border-radius:14px;
- background:#202850;
- color:white;
- font-weight:bold;
- border:1px solid var(--border);
+.primary:hover{
+    transform:translateY(-3px);
+    box-shadow:0 16px 40px rgba(255,174,35,.4);
+}
+
+.secondary{
+    margin-top:15px;
+    padding:13px 25px;
+    border-radius:14px;
+    border:1px solid rgba(255,255,255,.12);
+    background:#202850;
+    color:#fff;
+    font-weight:bold;
 }
 
 .name-card{
- width:min(520px,100%);
- padding:35px;
- text-align:center;
+    width:min(520px,100%);
+    padding:35px 25px;
+    text-align:center;
+}
+
+.name-icon{
+    font-size:60px;
+    margin-bottom:15px;
 }
 
 .name-card h2{
- font-size:30px;
- margin-bottom:10px;
+    font-size:30px;
+    margin-bottom:8px;
 }
 
 .name-input{
- width:100%;
- margin-top:25px;
- padding:17px;
- border-radius:15px;
- border:2px solid rgba(255,213,74,.2);
- background:#080c24;
- color:white;
- outline:none;
- text-align:center;
- font-size:20px;
+    width:100%;
+    margin-top:25px;
+    padding:17px;
+    border-radius:15px;
+    border:2px solid rgba(255,213,74,.2);
+    outline:none;
+    background:#080d29;
+    color:#fff;
+    text-align:center;
+    font-size:20px;
 }
 
 .name-input:focus{
- border-color:var(--gold);
+    border-color:var(--gold);
 }
 
 .topbar{
- width:100%;
- display:flex;
- justify-content:space-between;
- align-items:center;
- gap:10px;
- margin-bottom:18px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    margin-bottom:15px;
 }
 
 .badge{
- padding:9px 15px;
- border-radius:999px;
- background:#171d42;
- border:1px solid var(--border);
- color:#dce3ff;
+    padding:10px 16px;
+    border-radius:999px;
+    background:#171e43;
+    border:1px solid rgba(255,255,255,.1);
 }
 
-.sound-btn{
- width:44px;
- height:44px;
- border-radius:50%;
- background:#171d42;
- color:white;
- border:1px solid var(--border);
- font-size:20px;
+.sound{
+    width:45px;
+    height:45px;
+    border-radius:50%;
+    background:#171e43;
+    color:#fff;
+    border:1px solid rgba(255,255,255,.1);
+    font-size:20px;
 }
 
-.ladder-layout{
- display:grid;
- grid-template-columns:280px 1fr;
- gap:20px;
- align-items:stretch;
+.game-layout{
+    display:grid;
+    grid-template-columns:280px 1fr;
+    gap:20px;
 }
 
 .ladder{
- padding:20px;
+    padding:20px;
 }
 
 .ladder h3{
- text-align:center;
- margin-bottom:14px;
- color:var(--gold);
+    color:var(--gold);
+    text-align:center;
+    margin-bottom:12px;
 }
 
 .prize{
- display:flex;
- justify-content:space-between;
- padding:10px 13px;
- margin:5px 0;
- border-radius:10px;
- color:#b9c3e7;
- font-weight:bold;
- transition:.3s;
+    display:flex;
+    justify-content:space-between;
+    padding:10px 12px;
+    margin:5px 0;
+    border-radius:10px;
+    color:#adb7d7;
+    font-weight:bold;
+    transition:.3s;
 }
 
 .prize.safe{
- color:white;
- border-bottom:1px solid rgba(255,213,74,.3);
+    border-bottom:1px solid rgba(255,213,74,.3);
+    color:#fff;
 }
 
 .prize.current{
- background:linear-gradient(90deg,#ffb300,#ff7a00);
- color:#130d00;
- transform:scale(1.04);
- box-shadow:0 7px 20px rgba(255,160,30,.3);
+    background:linear-gradient(90deg,#ffb500,#ff7b00);
+    color:#120d00;
+    transform:scale(1.04);
+    box-shadow:0 7px 20px rgba(255,160,30,.3);
 }
 
-.game-panel{
- padding:28px;
+.game-card{
+    padding:28px;
 }
 
 .level{
- text-align:center;
- color:var(--cyan);
- font-weight:bold;
- margin-bottom:8px;
-}
-
-.question{
- min-height:145px;
- display:flex;
- align-items:center;
- justify-content:center;
- text-align:center;
- font-size:clamp(21px,4vw,32px);
- line-height:1.65;
- font-weight:900;
- padding:25px;
- margin:15px 0;
- border-radius:22px;
- background:linear-gradient(145deg,#171e49,#0b1030);
- border:1px solid rgba(54,217,255,.18);
-}
-
-.timer-wrap{
- width:90px;
- height:90px;
- margin:10px auto 20px;
- border-radius:50%;
- display:flex;
- align-items:center;
- justify-content:center;
- background:conic-gradient(var(--cyan) var(--progress,100%),#20274d 0);
- position:relative;
-}
-
-.timer-wrap::before{
- content:"";
- position:absolute;
- inset:7px;
- border-radius:50%;
- background:#0c112d;
+    text-align:center;
+    color:var(--blue);
+    font-weight:bold;
 }
 
 .timer{
- position:relative;
- z-index:1;
- font-size:25px;
- font-weight:900;
+    width:82px;
+    height:82px;
+    margin:15px auto;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#0a102c;
+    border:7px solid var(--blue);
+    font-size:25px;
+    font-weight:900;
+}
+
+.timer.danger{
+    border-color:var(--red);
+    color:var(--red);
+}
+
+.question{
+    min-height:145px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:25px;
+    margin:15px 0;
+    border-radius:22px;
+    background:linear-gradient(145deg,#181f4b,#0c1233);
+    border:1px solid rgba(53,217,255,.16);
+    font-size:clamp(20px,4vw,31px);
+    line-height:1.7;
+    font-weight:900;
 }
 
 .answers{
- display:grid;
- grid-template-columns:1fr 1fr;
- gap:13px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:13px;
 }
 
 .answer{
- min-height:68px;
- padding:15px;
- border-radius:17px;
- color:white;
- background:#171e45;
- border:1px solid rgba(255,255,255,.1);
- font-size:17px;
- font-weight:bold;
- transition:.2s;
+    min-height:68px;
+    padding:15px;
+    border-radius:17px;
+    border:1px solid rgba(255,255,255,.1);
+    background:#171e45;
+    color:#fff;
+    font-size:17px;
+    font-weight:bold;
+    transition:.2s;
 }
 
 .answer:hover{
- transform:translateY(-2px);
- border-color:var(--cyan);
- background:#1c2755;
+    border-color:var(--blue);
+    transform:translateY(-2px);
 }
 
 .answer.correct{
- background:linear-gradient(135deg,#117b55,#1fb875);
- border-color:#66ffc0;
- animation:correct .45s;
+    background:linear-gradient(135deg,#117b55,#1fba76);
+    border-color:#68ffc1;
 }
 
 .answer.wrong{
- background:linear-gradient(135deg,#8b1831,#d83d58);
- border-color:#ff8498;
- animation:shake .4s;
+    background:linear-gradient(135deg,#891a33,#d94059);
+    border-color:#ff899c;
 }
 
 .answer.hidden{
- opacity:.18;
- pointer-events:none;
- transform:scale(.96);
-}
-
-@keyframes correct{
- 50%{transform:scale(1.04)}
-}
-
-@keyframes shake{
- 25%{transform:translateX(7px)}
- 50%{transform:translateX(-7px)}
- 75%{transform:translateX(5px)}
+    visibility:hidden;
 }
 
 .lifelines{
- display:grid;
- grid-template-columns:repeat(4,1fr);
- gap:10px;
- margin-top:18px;
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:10px;
+    margin-top:18px;
 }
 
 .life{
- padding:13px 8px;
- border-radius:14px;
- background:#11183a;
- color:#fff;
- border:1px solid var(--border);
- font-size:14px;
- font-weight:bold;
-}
-
-.life:hover{
- border-color:var(--gold);
+    padding:13px 7px;
+    border-radius:14px;
+    border:1px solid rgba(255,255,255,.1);
+    background:#11183a;
+    color:#fff;
+    font-weight:bold;
 }
 
 .life.used{
- opacity:.3;
- text-decoration:line-through;
- pointer-events:none;
+    opacity:.3;
+    text-decoration:line-through;
+    pointer-events:none;
 }
 
 .progress{
- height:8px;
- border-radius:20px;
- overflow:hidden;
- background:#20274d;
- margin-top:20px;
+    height:8px;
+    margin-top:20px;
+    border-radius:20px;
+    background:#20274d;
+    overflow:hidden;
 }
 
 .progress-bar{
- height:100%;
- width:0;
- background:linear-gradient(90deg,var(--cyan),var(--gold));
- transition:.5s;
-}
-
-.wheel-card{
- width:min(700px,100%);
- padding:30px;
- text-align:center;
-}
-
-.wheel{
- width:min(380px,75vw);
- aspect-ratio:1;
- margin:25px auto;
- border-radius:50%;
- border:12px solid #e7b72f;
- position:relative;
- overflow:hidden;
- box-shadow:0 0 50px rgba(255,200,50,.25);
- transition:transform 4s cubic-bezier(.12,.75,.16,1);
- background:
- conic-gradient(
- #ff5570 0deg 45deg,
- #36d9ff 45deg 90deg,
- #9d6bff 90deg 135deg,
- #35e58b 135deg 180deg,
- #ffb52e 180deg 225deg,
- #ff5570 225deg 270deg,
- #36d9ff 270deg 315deg,
- #9d6bff 315deg 360deg
- );
-}
-
-.wheel::after{
- content:"🎡";
- position:absolute;
- inset:35%;
- display:flex;
- align-items:center;
- justify-content:center;
- border-radius:50%;
- background:#101532;
- border:6px solid var(--gold);
- font-size:35px;
-}
-
-.pointer{
- margin:auto;
- width:0;
- height:0;
- border-left:18px solid transparent;
- border-right:18px solid transparent;
- border-top:35px solid var(--gold);
- filter:drop-shadow(0 5px 5px #000);
-}
-
-.wheel-result{
- min-height:45px;
- font-size:22px;
- color:var(--gold);
- font-weight:900;
-}
-
-.million-card{
- width:min(800px,100%);
- padding:35px;
- text-align:center;
- border:2px solid rgba(255,213,74,.25);
-}
-
-.million-number{
- font-size:clamp(55px,13vw,120px);
- font-weight:1000;
- color:var(--gold);
- text-shadow:0 0 35px rgba(255,190,30,.35);
- margin:10px 0;
-}
-
-.million-question{
- font-size:clamp(20px,4vw,30px);
- line-height:1.7;
- margin:20px 0;
-}
-
-.result-card{
- width:min(650px,100%);
- padding:40px 25px;
- text-align:center;
-}
-
-.trophy{
- font-size:80px;
- animation:floatTrophy 2s infinite;
-}
-
-@keyframes floatTrophy{
- 50%{transform:translateY(-10px) rotate(3deg)}
-}
-
-.result-name{
- color:var(--cyan);
- font-size:25px;
- margin:10px 0;
-}
-
-.result-money{
- font-size:clamp(40px,10vw,70px);
- color:var(--gold);
- font-weight:1000;
- margin:15px 0;
-}
-
-.stats{
- display:grid;
- grid-template-columns:repeat(3,1fr);
- gap:10px;
- margin:25px 0;
-}
-
-.stat{
- padding:18px 10px;
- border-radius:15px;
- background:#11183a;
-}
-
-.stat strong{
- display:block;
- font-size:25px;
- color:white;
- margin-bottom:5px;
-}
-
-.stat span{
- color:var(--muted);
- font-size:13px;
-}
-
-.overlay{
- position:fixed;
- inset:0;
- z-index:20;
- display:none;
- align-items:center;
- justify-content:center;
- padding:20px;
- background:rgba(3,5,18,.78);
- backdrop-filter:blur(8px);
-}
-
-.overlay.show{
- display:flex;
-}
-
-.modal{
- width:min(500px,100%);
- padding:30px;
- text-align:center;
-}
-
-.modal h2{
- color:var(--gold);
- margin-bottom:15px;
-}
-
-.modal p{
- line-height:1.8;
- color:#d4daf1;
-}
-
-.confetti{
- position:fixed;
- z-index:50;
- width:9px;
- height:16px;
- top:-20px;
- animation:confettiFall linear forwards;
-}
-
-@keyframes confettiFall{
- to{
-  transform:translateY(110vh) rotate(720deg);
-  opacity:0;
- }
-}
-
-.flash{
- animation:flash .4s;
-}
-
-@keyframes flash{
- 50%{filter:brightness(1.7)}
+    height:100%;
+    width:0;
+    background:linear-gradient(90deg,var(--blue),var(--gold));
+    transition:.4s;
 }
 
 @media(max-width:800px){
- .ladder-layout{
-  grid-template-columns:1fr;
- }
- .ladder{
-  order:2;
- }
- .game-panel{
-  order:1;
- }
- .ladder{
-  max-height:300px;
-  overflow:auto;
- }
+    .game-layout{
+        grid-template-columns:1fr;
+    }
+
+    .ladder{
+        order:2;
+        max-height:280px;
+        overflow:auto;
+    }
+
+    .game-card{
+        order:1;
+    }
 }
 
 @media(max-width:560px){
- .screen{
-  padding:12px;
- }
- .hero-card,.game-panel,.wheel-card,.million-card,.result-card{
-  padding:20px 14px;
-  border-radius:20px;
- }
- .answers{
-  grid-template-columns:1fr;
- }
- .lifelines{
-  grid-template-columns:1fr 1fr;
- }
- .stats{
-  grid-template-columns:1fr;
- }
- .question{
-  min-height:130px;
- }
- .primary-btn{
-  width:100%;
- }
+    .screen{
+        padding:12px;
+    }
+
+    .start-card,
+    .name-card,
+    .game-card,
+    .ladder{
+        border-radius:20px;
+    }
+
+    .game-card{
+        padding:18px 13px;
+    }
+
+    .answers{
+        grid-template-columns:1fr;
+    }
+
+    .lifelines{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .primary{
+        width:100%;
+    }
+
+    .question{
+        min-height:130px;
+    }
 }
-</style>
-</head>
+</style></head><body><div id="stars"></div><section id="startScreen" class="screen active">
+    <div class="container">
+        <div class="start-card card">        <div class="logo">💻</div>
 
-<body>
+        <h1 class="main-title">
+            تحدي المبرمج الصغير
+        </h1>
 
-<div id="particles"></div>
+        <p class="subtitle">
+            AmnaTech • الإصدار الاحترافي 3.0
+        </p>
 
-<!-- البداية -->
-<section id="startScreen" class="screen active">
- <div class="container">
-  <div class="hero-card glass">
-   <div class="logo">💻</div>
-   <h1 class="title">تحدي المبرمج الصغير</h1>
-   <p class="subtitle">AmnaTech • الإصدار الاحترافي 3.0</p>
-   <p class="subtitle" style="margin-top:22px">
-    اختبر معلوماتك في البرمجة والتقنية، اصعد سلم الجوائز وحاول الوصول إلى المليون! 🏆
-   </p>
-   <button class="primary-btn" onclick="showName()">🚀 ابدأ التحدي</button>
-  </div>
- </div>
-</section>
+        <p class="subtitle">
+            اختبر معلوماتك في البرمجة والتقنية،
+            اصعد سلم الجوائز وحاول الوصول إلى المليون! 🏆
+        </p>
 
-<!-- الاسم -->
-<section id="nameScreen" class="screen">
- <div class="name-card glass">
-  <div style="font-size:55px">👨‍💻</div>
-  <h2>من هو المبرمج؟</h2>
-  <p class="subtitle">اكتب اسمك لنبدأ التحدي</p>
+        <button class="primary" onclick="showName()">
+            🚀 ابدأ التحدي
+        </button>
 
-  <input id="nameInput" class="name-input"
-   maxlength="25"
-   placeholder="اكتب اسمك هنا...">
-
-  <button class="primary-btn" onclick="startGame()">دخول التحدي 🎮</button>
-  <br>
-  <button class="secondary-btn" style="margin-top:12px" onclick="showScreen('startScreen')">
-   رجوع
-  </button>
- </div>
-</section>
-
-<!-- اللعبة -->
-<section id="gameScreen" class="screen">
- <div class="container">
-
-  <div class="topbar">
-   <div class="badge">👤 <span id="playerName"></span></div>
-   <div>
-    <button class="sound-btn" onclick="toggleSound()" id="soundBtn">🔊</button>
-   </div>
-  </div>
-
-  <div class="ladder-layout">
-
-   <aside class="ladder glass">
-    <h3>🏆 سلم الجوائز</h3>
-    <div id="ladderList"></div>
-   </aside>
-
-   <main class="game-panel glass">
-
-    <div class="level" id="levelText"></div>
-
-    <div class="timer-wrap" id="timerWrap">
-     <div class="timer" id="timer">30</div>
     </div>
-
-    <div class="question" id="question"></div>
-
-    <div class="answers" id="answers"></div>
-
-    <div class="lifelines">
-     <button class="life" id="life5050" onclick="use5050()">50:50</button>
-     <button class="life" id="lifeHint" onclick="useHint()">💡 تلميح</button>
-     <button class="life" id="lifePoll" onclick="usePoll()">👥 الجمهور</button>
-     <button class="life" id="lifeSwap" onclick="useSwap()">🔄 تبديل</button>
-    </div>
-
-    <div class="progress">
-     <div class="progress-bar" id="progressBar"></div>
-    </div>
-
-   </main>
-  </div>
- </div>
-</section>
-
-<!-- دولاب الحظ -->
-<section id="wheelScreen" class="screen">
- <div class="wheel-card glass">
-  <div style="font-size:45px">🎡</div>
-  <h2>دولاب الحظ</h2>
-  <p class="subtitle">لقد وصلت إلى مرحلة خاصة! أدر العجلة.</p>
-
-  <div class="pointer"></div>
-  <div class="wheel" id="wheel"></div>
-
-  <div class="wheel-result" id="wheelResult">اضغط لتدوير العجلة</div>
-
-  <button class="primary-btn" id="spinBtn" onclick="spinWheel()">🎡 أدر العجلة</button>
- </div>
-</section>
-
-<!-- المليون -->
-<section id="millionScreen" class="screen">
- <div class="million-card glass">
-  <div style="font-size:55px">👑</div>
-  <h2>الجولة النهائية</h2>
-  <div class="million-number">1,000,000</div>
-  <p class="subtitle">سؤال واحد يفصلك عن المليون!</p>
-
-  <div class="million-question" id="millionQuestion"></div>
-  <div class="answers" id="millionAnswers"></div>
-
-  <button class="secondary-btn" style="margin-top:22px" onclick="giveUpMillion()">
-   الانسحاب
-  </button>
- </div>
-</section>
-
-<!-- النتائج -->
-<section id="resultScreen" class="screen">
- <div class="result-card glass">
-  <div class="trophy" id="resultTrophy">🏆</div>
-  <h1 id="resultTitle">أحسنت!</h1>
-  <div class="result-name" id="resultName"></div>
-  <div class="result-money" id="resultMoney"></div>
-
-  <div class="stats">
-   <div class="stat">
-    <strong id="resultLevel">0</strong>
-    <span>المستوى</span>
-   </div>
-   <div class="stat">
-    <strong id="resultCorrect">0</strong>
-    <span>إجابات صحيحة</span>
-   </div>
-   <div class="stat">
-    <strong id="resultPercent">0%</strong>
-    <span>نسبة النجاح</span>
-   </div>
-  </div>
-
-  <p id="bestScore" class="subtitle"></p>
-
-  <button class="primary-btn" onclick="restartGame()">🔄 العب مرة أخرى</button>
- </div>
-</section>
-
-<!-- النافذة -->
-<div class="overlay" id="modalOverlay">
- <div class="modal glass">
-  <h2 id="modalTitle"></h2>
-  <p id="modalText"></p>
-  <button class="primary-btn" onclick="closeModal()">متابعة</button>
- </div>
 </div>
 
-<script>
-/* =========================
-   البيانات
-========================= */
+</section><section id="nameScreen" class="screen">
+    <div class="name-card card">    <div class="name-icon">👨‍💻</div>
 
-const prizes=[
+    <h2>من هو المبرمج؟</h2>
+
+    <p class="subtitle">
+        اكتب اسمك لنبدأ التحدي
+    </p>
+
+    <input
+        id="nameInput"
+        class="name-input"
+        type="text"
+        maxlength="25"
+        placeholder="اكتب اسمك هنا..."
+    >
+
+    <button class="primary" onclick="startGame()">
+        دخول التحدي 🎮
+    </button>
+
+    <br>
+
+    <button
+        class="secondary"
+        onclick="showScreen('startScreen')">
+        رجوع
+    </button>
+
+</div>
+
+</section><section id="gameScreen" class="screen">
+    <div class="container">    <div class="topbar">
+
+        <div class="badge">
+            👤 <span id="playerName"></span>
+        </div>
+
+        <button
+            id="soundBtn"
+            class="sound"
+            onclick="toggleSound()">
+            🔊
+        </button>
+
+    </div>
+
+    <div class="game-layout">
+
+        <aside class="ladder card">
+
+            <h3>🏆 سلم الجوائز</h3>
+
+            <div id="ladderList"></div>
+
+        </aside>
+
+        <main class="game-card card">
+
+            <div id="levelText" class="level"></div>
+
+            <div id="timer" class="timer">
+                30
+            </div>
+
+            <div id="question" class="question">
+                السؤال
+            </div>
+
+            <div id="answers" class="answers"></div>
+
+            <div class="lifelines">
+
+                <button
+                    id="life5050"
+                    class="life"
+                    onclick="use5050()">
+                    50:50
+                </button>
+
+                <button
+                    id="lifeHint"
+                    class="life"
+                    onclick="useHint()">
+                    💡 تلميح
+                </button>
+
+                <button
+                    id="lifePoll"
+                    class="life"
+                    onclick="usePoll()">
+                    👥 الجمهور
+                </button>
+
+                <button
+                    id="lifeSwap"
+                    class="life"
+                    onclick="useSwap()">
+                    🔄 تبديل
+                </button>
+
+            </div>
+
+            <div class="progress">
+                <div
+                    id="progressBar"
+                    class="progress-bar">
+                </div>
+            </div>
+
+        </main>
+
+    </div>
+
+</div>
+
+</section>
+<!-- ============================= -->
+<!-- الجزء 2 من 4 -->
+<!-- ============================= -->
+
+<style>
+/* شاشة عجلة الحظ */
+#wheelScreen{
+  text-align:center;
+}
+
+.wheel-wrap{
+  position:relative;
+  width:min(340px,80vw);
+  height:min(340px,80vw);
+  margin:25px auto;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+#wheel{
+  width:100%;
+  height:100%;
+  border-radius:50%;
+  border:10px solid rgba(255,255,255,.9);
+  box-shadow:
+    0 0 0 5px rgba(255,215,0,.25),
+    0 0 45px rgba(0,0,0,.5);
+  background:
+    conic-gradient(
+      #7c3aed 0deg 60deg,
+      #2563eb 60deg 120deg,
+      #0891b2 120deg 180deg,
+      #059669 180deg 240deg,
+      #ca8a04 240deg 300deg,
+      #dc2626 300deg 360deg
+    );
+  position:relative;
+  transition:transform 4s cubic-bezier(.15,.8,.2,1);
+}
+
+.wheel-center{
+  position:absolute;
+  width:82px;
+  height:82px;
+  border-radius:50%;
+  background:#111827;
+  border:6px solid #facc15;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:28px;
+  z-index:3;
+  box-shadow:0 0 25px rgba(250,204,21,.45);
+}
+
+.wheel-label{
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:white;
+  font-weight:900;
+  font-size:18px;
+  text-shadow:0 2px 4px #000;
+  pointer-events:none;
+}
+
+.wheel-label span{
+  position:absolute;
+}
+
+.wheel-label span:nth-child(1){
+  top:32px;
+  right:50%;
+  transform:translateX(50%);
+}
+
+.wheel-label span:nth-child(2){
+  top:85px;
+  right:35px;
+}
+
+.wheel-label span:nth-child(3){
+  bottom:65px;
+  right:45px;
+}
+
+.wheel-label span:nth-child(4){
+  bottom:32px;
+  left:50%;
+  transform:translateX(-50%);
+}
+
+.wheel-label span:nth-child(5){
+  bottom:65px;
+  left:45px;
+}
+
+.wheel-label span:nth-child(6){
+  top:85px;
+  left:35px;
+}
+
+.wheel-pointer{
+  position:absolute;
+  top:-18px;
+  left:50%;
+  transform:translateX(-50%);
+  width:0;
+  height:0;
+  border-left:18px solid transparent;
+  border-right:18px solid transparent;
+  border-top:42px solid #facc15;
+  z-index:5;
+  filter:drop-shadow(0 4px 5px rgba(0,0,0,.5));
+}
+
+.wheel-result{
+  min-height:45px;
+  font-size:22px;
+  font-weight:900;
+  color:#facc15;
+  margin:10px 0 20px;
+}
+
+/* شاشة المليون */
+.million-box{
+  max-width:850px;
+  margin:0 auto;
+}
+
+.million-badge{
+  display:inline-block;
+  padding:10px 22px;
+  border-radius:999px;
+  background:linear-gradient(135deg,#facc15,#f59e0b);
+  color:#111827;
+  font-size:22px;
+  font-weight:1000;
+  box-shadow:0 8px 25px rgba(250,204,21,.3);
+  margin-bottom:20px;
+}
+
+.million-question{
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.15);
+  border-radius:22px;
+  padding:25px;
+  font-size:25px;
+  font-weight:900;
+  line-height:1.7;
+  margin-bottom:20px;
+  box-shadow:0 15px 40px rgba(0,0,0,.25);
+}
+
+.million-answers{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:15px;
+}
+
+.million-answer{
+  border:2px solid rgba(255,255,255,.16);
+  background:rgba(255,255,255,.07);
+  color:white;
+  padding:18px;
+  border-radius:18px;
+  cursor:pointer;
+  font-size:18px;
+  font-weight:800;
+  transition:.2s;
+}
+
+.million-answer:hover{
+  transform:translateY(-3px);
+  background:rgba(255,255,255,.14);
+  border-color:#facc15;
+}
+
+.million-answer.correct{
+  background:rgba(34,197,94,.25);
+  border-color:#22c55e;
+}
+
+.million-answer.wrong{
+  background:rgba(239,68,68,.25);
+  border-color:#ef4444;
+}
+
+.give-up{
+  margin-top:20px;
+  background:transparent;
+  border:1px solid rgba(255,255,255,.2);
+  color:#cbd5e1;
+  padding:12px 20px;
+  border-radius:12px;
+  cursor:pointer;
+}
+
+/* شاشة النتيجة */
+.result-card{
+  max-width:700px;
+  margin:0 auto;
+  text-align:center;
+  padding:35px 25px;
+  border-radius:28px;
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.14);
+  box-shadow:0 20px 60px rgba(0,0,0,.35);
+}
+
+.result-trophy{
+  font-size:75px;
+  animation:bounceTrophy 1.5s infinite;
+}
+
+@keyframes bounceTrophy{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-10px)}
+}
+
+.result-title{
+  font-size:32px;
+  font-weight:1000;
+  margin:10px 0;
+}
+
+.result-name{
+  color:#cbd5e1;
+  font-size:18px;
+  margin-bottom:20px;
+}
+
+.result-money{
+  font-size:48px;
+  font-weight:1000;
+  color:#facc15;
+  text-shadow:0 0 25px rgba(250,204,21,.35);
+  margin:15px 0 30px;
+}
+
+.result-stats{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+  margin-bottom:25px;
+}
+
+.stat-box{
+  background:rgba(0,0,0,.2);
+  border:1px solid rgba(255,255,255,.1);
+  padding:15px 10px;
+  border-radius:16px;
+}
+
+.stat-value{
+  font-size:25px;
+  font-weight:1000;
+  color:white;
+}
+
+.stat-label{
+  font-size:13px;
+  color:#94a3b8;
+  margin-top:4px;
+}
+
+.best-score{
+  color:#facc15;
+  font-weight:900;
+  margin-bottom:20px;
+}
+
+/* النافذة المنبثقة */
+.modal-overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(2,6,23,.78);
+  backdrop-filter:blur(8px);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:100;
+  padding:20px;
+}
+
+.modal-overlay.show{
+  display:flex;
+}
+
+.modal-box{
+  width:min(500px,100%);
+  background:#111827;
+  border:1px solid rgba(255,255,255,.15);
+  border-radius:25px;
+  padding:30px;
+  text-align:center;
+  box-shadow:0 25px 80px rgba(0,0,0,.55);
+  animation:modalIn .25s ease;
+}
+
+@keyframes modalIn{
+  from{
+    opacity:0;
+    transform:scale(.9) translateY(20px);
+  }
+  to{
+    opacity:1;
+    transform:scale(1) translateY(0);
+  }
+}
+
+.modal-icon{
+  font-size:55px;
+  margin-bottom:10px;
+}
+
+.modal-title{
+  font-size:25px;
+  font-weight:1000;
+  margin-bottom:10px;
+}
+
+.modal-text{
+  color:#cbd5e1;
+  line-height:1.8;
+  font-size:17px;
+  margin-bottom:20px;
+}
+
+/* الجسيمات */
+.particle{
+  position:fixed;
+  width:5px;
+  height:5px;
+  border-radius:50%;
+  background:#facc15;
+  pointer-events:none;
+  z-index:-1;
+  opacity:.5;
+  animation:floatParticle linear infinite;
+}
+
+@keyframes floatParticle{
+  from{
+    transform:translateY(100vh) translateX(0);
+    opacity:0;
+  }
+  15%{opacity:.6}
+  85%{opacity:.6}
+  to{
+    transform:translateY(-20vh) translateX(80px);
+    opacity:0;
+  }
+}
+
+/* الكونفيتي */
+.confetti{
+  position:fixed;
+  top:-20px;
+  width:9px;
+  height:16px;
+  z-index:200;
+  pointer-events:none;
+  animation:confettiFall 3s linear forwards;
+}
+
+@keyframes confettiFall{
+  to{
+    transform:translateY(110vh) rotate(720deg);
+    opacity:0;
+  }
+}
+
+@media(max-width:650px){
+  .million-answers{
+    grid-template-columns:1fr;
+  }
+
+  .million-question{
+    font-size:20px;
+    padding:20px;
+  }
+
+  .result-money{
+    font-size:38px;
+  }
+
+  .result-stats{
+    grid-template-columns:1fr;
+  }
+
+  .wheel-wrap{
+    width:280px;
+    height:280px;
+  }
+}
+</style>
+
+<!-- ============================= -->
+<!-- شاشة عجلة الحظ -->
+<!-- ============================= -->
+
+<section id="wheelScreen" class="screen">
+  <div class="card">
+    <div class="section-kicker">🎡 استراحة المتسابق</div>
+
+    <h2>عجلة الحظ</h2>
+
+    <p class="subtitle">
+      أدر العجلة لتحصل على مكافأة إضافية!
+    </p>
+
+    <div class="wheel-wrap">
+      <div class="wheel-pointer"></div>
+
+      <div id="wheel">
+        <div class="wheel-label">
+          <span>+10,000</span>
+          <span>+20,000</span>
+          <span>+5,000</span>
+          <span>+50,000</span>
+          <span>+15,000</span>
+          <span>+25,000</span>
+        </div>
+
+        <div class="wheel-center">🎯</div>
+      </div>
+    </div>
+
+    <div id="wheelResult" class="wheel-result">
+      اضغط على الزر لتدوير العجلة
+    </div>
+
+    <button
+      id="spinButton"
+      class="primary"
+      onclick="spinWheel()"
+    >
+      🎡 أدر العجلة
+    </button>
+  </div>
+</section>
+
+<!-- ============================= -->
+<!-- شاشة الجولة النهائية -->
+<!-- ============================= -->
+
+<section id="millionScreen" class="screen">
+  <div class="million-box">
+
+    <div class="million-badge">
+      👑 الجولة النهائية — 1,000,000
+    </div>
+
+    <h1 class="main-title">
+      سؤال المليون
+    </h1>
+
+    <p class="subtitle">
+      هل تستطيع الوصول إلى القمة؟
+    </p>
+
+    <div
+      id="millionQuestion"
+      class="million-question"
+    ></div>
+
+    <div
+      id="millionAnswers"
+      class="million-answers"
+    ></div>
+
+    <button
+      class="give-up"
+      onclick="giveUpMillion()"
+    >
+      الانسحاب والاحتفاظ بالجائزة
+    </button>
+
+  </div>
+</section>
+
+<!-- ============================= -->
+<!-- شاشة النتيجة -->
+<!-- ============================= -->
+
+<section id="resultScreen" class="screen">
+
+  <div class="result-card">
+
+    <div id="resultTrophy" class="result-trophy">
+      🏆
+    </div>
+
+    <h1
+      id="resultTitle"
+      class="result-title"
+    >
+      أحسنت!
+    </h1>
+
+    <div
+      id="resultName"
+      class="result-name"
+    ></div>
+
+    <div
+      id="resultMoney"
+      class="result-money"
+    >
+      0
+    </div>
+
+    <div class="result-stats">
+
+      <div class="stat-box">
+        <div
+          id="resultLevel"
+          class="stat-value"
+        >
+          0
+        </div>
+        <div class="stat-label">
+          المستوى
+        </div>
+      </div>
+
+      <div class="stat-box">
+        <div
+          id="resultCorrect"
+          class="stat-value"
+        >
+          0
+        </div>
+        <div class="stat-label">
+          إجابات صحيحة
+        </div>
+      </div>
+
+      <div class="stat-box">
+        <div
+          id="resultPercent"
+          class="stat-value"
+        >
+          0%
+        </div>
+        <div class="stat-label">
+          نسبة النجاح
+        </div>
+      </div>
+
+    </div>
+
+    <div
+      id="bestScore"
+      class="best-score"
+    ></div>
+
+    <button
+      class="primary"
+      onclick="restartGame()"
+    >
+      🔄 العب مرة أخرى
+    </button>
+
+  </div>
+
+</section>
+
+<!-- ============================= -->
+<!-- النافذة المنبثقة -->
+<!-- ============================= -->
+
+<div
+  id="modalOverlay"
+  class="modal-overlay"
+>
+
+  <div class="modal-box">
+
+    <div
+      id="modalIcon"
+      class="modal-icon"
+    >
+      💡
+    </div>
+
+    <div
+      id="modalTitle"
+      class="modal-title"
+    >
+      معلومة
+    </div>
+
+    <div
+      id="modalText"
+      class="modal-text"
+    >
+      نص الرسالة
+    </div>
+
+    <button
+      class="primary"
+      onclick="closeModal()"
+    >
+      متابعة
+    </button>
+
+  </div>
+
+</div>
+
+<!-- ============================= -->
+<!-- الجزء 3 من 4 -->
+<!-- JavaScript + بنك الأسئلة -->
+<!-- ============================= -->
+
+<script>
+
+/* =========================================
+   إعدادات اللعبة
+========================================= */
+
+const prizes = [
   1000,
   2000,
   5000,
@@ -819,267 +1232,1723 @@ const prizes=[
   100000,
   150000,
   250000,
-  500000,
-  1000000
+  500000
 ];
 
-const questions=[
- {
-  q:"ما اللغة التي تستخدم لبناء هيكل صفحات الويب؟",
-  a:["HTML","Python","SQL","C++"],
-  c:0
- },
- {
-  q:"ما اللغة المستخدمة عادةً لإضافة التفاعل إلى صفحات الويب؟",
-  a:["JavaScript","HTML","CSS","XML"],
-  c:0
- },
- {
-  q:"ماذا تعني CSS؟",
-  a:["Cascading Style Sheets","Computer Style System","Creative Software Syntax","Code Styling System"],
-  c:0
- },
- {
-  q:"أي مما يلي يعتبر نظام تشغيل؟",
-  a:["Linux","HTML","JavaScript","MySQL"],
-  c:0
- },
- {
-  q:"ما وظيفة المتغير في البرمجة؟",
-  a:["تخزين قيمة","إيقاف الحاسوب","حذف الإنترنت","تصميم الشاشة فقط"],
-  c:0
- },
- {
-  q:"أي رمز يستخدم غالبًا لكتابة تعليق في JavaScript لسطر واحد؟",
-  a:["//","##","<!--","**"],
-  c:0
- },
- {
-  q:"ما اسم الحلقة التي تكرر التعليمات طالما الشرط صحيح؟",
-  a:["while","print","input","return"],
-  c:0
- },
- {
-  q:"ما المقصود بـ Bug في البرمجة؟",
-  a:["خطأ في البرنامج","لغة برمجة","حاسوب جديد","قاعدة بيانات"],
-  c:0
- },
- {
-  q:"أي مما يلي قاعدة بيانات؟",
-  a:["MySQL","HTML","CSS","Photoshop"],
-  c:0
- },
- {
-  q:"ما المقصود بـ URL؟",
-  a:["عنوان مورد على الإنترنت","نوع معالج","لغة برمجة","نظام تشغيل"],
-  c:0
- },
- {
-  q:"ما وظيفة المتصفح؟",
-  a:["عرض مواقع الويب","تجميع الحاسوب","تصنيع المعالج","شحن البطارية"],
-  c:0
- },
- {
-  q:"أي من الآتي لغة برمجة؟",
-  a:["Python","HTML","CSS","JPEG"],
-  c:0
- },
- {
-  q:"ما الوحدة التي تقيس سرعة المعالج عادةً؟",
-  a:["GHz","GB","Pixel","Volt"],
-  c:0
- },
- {
-  q:"ماذا تعني CPU؟",
-  a:["وحدة المعالجة المركزية","ذاكرة الرسوميات","قرص التخزين","بطاقة الشبكة"],
-  c:0
- },
- {
-  q:"أي جهاز يستخدم لإدخال النصوص إلى الحاسوب؟",
-  a:["لوحة المفاتيح","الشاشة","السماعة","جهاز العرض"],
-  c:0
- },
- {
-  q:"ما وظيفة RAM؟",
-  a:["تخزين مؤقت للبيانات أثناء التشغيل","تشغيل الصوت فقط","الاتصال بالطابعة فقط","عرض الصور"],
-  c:0
- },
- {
-  q:"ما المقصود بالخوارزمية؟",
-  a:["خطوات مرتبة لحل مشكلة","نوع شاشة","لغة برمجة فقط","ملف صوتي"],
-  c:0
- },
- {
-  q:"أي قيمة من التالية منطقية Boolean؟",
-  a:["true","100","Hello","3.14"],
-  c:0
- },
- {
-  q:"ما الأمر المستخدم غالبًا لإظهار قيمة في JavaScript؟",
-  a:["console.log()","show.html","display.css","printscreen()"],
-  c:0
- },
- {
-  q:"ما الامتداد الشائع لملف HTML؟",
-  a:[".html",".jpg",".mp3",".exe"],
-  c:0
- }
+const safeLevels = [4, 7];
+
+const questions = [
+  {
+    question: "ما اللغة الأساسية المستخدمة لبناء هيكل صفحات الويب؟",
+    answers: ["HTML", "CSS", "JavaScript", "Python"],
+    correct: 0,
+    hint: "ليست لغة تنسيق أو برمجة."
+  },
+  {
+    question: "ماذا تعني CSS؟",
+    answers: [
+      "Cascading Style Sheets",
+      "Computer Style System",
+      "Creative Style Syntax",
+      "Colorful Sheet System"
+    ],
+    correct: 0,
+    hint: "تُستخدم لتنسيق وتصميم صفحات الويب."
+  },
+  {
+    question: "أي لغة تُستخدم لإضافة التفاعل إلى صفحات الويب؟",
+    answers: ["JavaScript", "HTML", "SQL", "CSS"],
+    correct: 0,
+    hint: "تبدأ باسم Java."
+  },
+  {
+    question: "ما الامتداد الشائع لملف HTML؟",
+    answers: [".html", ".css", ".js", ".py"],
+    correct: 0,
+    hint: "ابحث عن الامتداد المرتبط بلغة صفحات الويب."
+  },
+  {
+    question: "أي من التالي يُستخدم لتغيير لون النص في CSS؟",
+    answers: ["color", "font", "text-coloring", "paint"],
+    correct: 0,
+    hint: "اسم الخاصية بسيط جدًا."
+  },
+  {
+    question: "ما الأمر المستخدم لطباعة قيمة في JavaScript؟",
+    answers: [
+      "console.log()",
+      "print.console()",
+      "write.console()",
+      "log.print()"
+    ],
+    correct: 0,
+    hint: "يبدأ بكلمة console."
+  },
+  {
+    question: "ما نوع القيمة الذي يمكن أن يكون True أو False؟",
+    answers: ["Boolean", "String", "Number", "Array"],
+    correct: 0,
+    hint: "هذا النوع يمثل حالتين فقط."
+  },
+  {
+    question: "ماذا نسمّي الخطأ البرمجي في الكود؟",
+    answers: ["Bug", "Browser", "Server", "Pixel"],
+    correct: 0,
+    hint: "المبرمجون يبحثون عنه لإصلاح البرنامج."
+  },
+  {
+    question: "أي لغة تُستخدم كثيرًا للتعامل مع قواعد بيانات MySQL؟",
+    answers: ["SQL", "HTML", "CSS", "JPEG"],
+    correct: 0,
+    hint: "اسمها يحتوي على كلمة Query."
+  },
+  {
+    question: "ما وظيفة المتصفح Browser؟",
+    answers: [
+      "عرض صفحات ومحتوى الويب",
+      "تصنيع الحاسوب",
+      "زيادة سرعة الإنترنت",
+      "إنشاء الكهرباء"
+    ],
+    correct: 0,
+    hint: "أنت تستخدمه الآن لفتح المواقع."
+  },
+  {
+    question: "أي لغة تشتهر ببساطة تعلمها وتستخدم في البرمجة والذكاء الاصطناعي؟",
+    answers: ["Python", "HTML", "CSS", "XML"],
+    correct: 0,
+    hint: "اسمها يعني نوعًا من الثعابين."
+  },
+  {
+    question: "ماذا تعني CPU؟",
+    answers: [
+      "Central Processing Unit",
+      "Computer Power Utility",
+      "Central Program User",
+      "Control Processing User"
+    ],
+    correct: 0,
+    hint: "هي وحدة المعالجة الرئيسية في الحاسوب."
+  },
+  {
+    question: "أي قطعة مسؤولة بشكل أساسي عن تخزين البيانات مؤقتًا أثناء تشغيل البرامج؟",
+    answers: ["RAM", "Keyboard", "Mouse", "Monitor"],
+    correct: 0,
+    hint: "ذاكرة مؤقتة وسريعة."
+  },
+  {
+    question: "ما وظيفة لوحة المفاتيح؟",
+    answers: [
+      "إدخال النصوص والأوامر",
+      "عرض الصور",
+      "تبريد المعالج",
+      "تخزين الملفات"
+    ],
+    correct: 0,
+    hint: "نستخدمها للكتابة."
+  },
+  {
+    question: "ما المقصود بالخوارزمية Algorithm؟",
+    answers: [
+      "خطوات منظمة لحل مشكلة",
+      "نوع من أنواع الشاشات",
+      "لغة تصميم",
+      "قطعة إلكترونية"
+    ],
+    correct: 0,
+    hint: "هي مجموعة خطوات مرتبة."
+  },
+  {
+    question: "ما الأمر الشائع في Linux لعرض الملفات الموجودة داخل مجلد؟",
+    answers: ["ls", "cd", "rm", "pwd"],
+    correct: 0,
+    hint: "الأمر مكوّن من حرفين."
+  },
+  {
+    question: "ماذا تفعل الحلقة while في البرمجة؟",
+    answers: [
+      "تكرر الأوامر ما دام الشرط صحيحًا",
+      "تحذف البرنامج",
+      "تغلق المتصفح",
+      "تغير لون الشاشة"
+    ],
+    correct: 0,
+    hint: "مرتبطة بالتكرار والشرط."
+  },
+  {
+    question: "ما المقصود بالمتغير Variable؟",
+    answers: [
+      "مكان لتخزين قيمة يمكن أن تتغير",
+      "نوع من الشاشات",
+      "ملف صوتي",
+      "برنامج حماية"
+    ],
+    correct: 0,
+    hint: "يحمل قيمة داخل البرنامج."
+  },
+  {
+    question: "ما رمز التعليق في JavaScript لسطر واحد؟",
+    answers: ["//", "##", "<!--", "**"],
+    correct: 0,
+    hint: "يتكون من شرطتين مائلتين."
+  },
+  {
+    question: "ما الوحدة التي تقيس سرعة المعالج غالبًا؟",
+    answers: ["GHz", "GB", "Pixel", "Volt"],
+    correct: 0,
+    hint: "الحرف G مع Hz."
+  }
 ];
 
-/* =========================
-   المتغيرات
-========================= */
 
-let player="";
-let index=0;
-let correctCount=0;
-let timer=null;
-let timeLeft=30;
-let locked=false;
-let sound=true;
-let used={
- f:false,
- h:false,
- p:false,
- s:false
+/* =========================================
+   سؤال الجولة النهائية
+========================================= */
+
+const millionQuestion = {
+  question: "أي تقنية تُستخدم لإنشاء صفحات ويب تفاعلية تعمل مباشرة داخل المتصفح؟",
+  answers: [
+    "JavaScript",
+    "SQL",
+    "MySQL",
+    "Linux"
+  ],
+  correct: 0
 };
 
-/* =========================
+
+/* =========================================
+   حالة اللعبة
+========================================= */
+
+let currentQuestion = 0;
+let correctAnswers = 0;
+let playerName = "";
+let currentPrize = 0;
+let timerValue = 30;
+let timerInterval = null;
+let soundEnabled = true;
+
+let used5050 = false;
+let usedHint = false;
+let usedPoll = false;
+let usedSwap = false;
+
+let wheelSpinning = false;
+let wheelBonus = 0;
+
+
+/* =========================================
    أدوات عامة
-========================= */
+========================================= */
 
 function showScreen(id){
- document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
- document.getElementById(id).classList.add("active");
- window.scrollTo(0,0);
+
+  document.querySelectorAll(".screen").forEach(screen => {
+    screen.classList.remove("active");
+  });
+
+  const target = document.getElementById(id);
+
+  if(target){
+    target.classList.add("active");
+  }
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
 }
 
-function formatMoney(n){
- return new Intl.NumberFormat("en-US").format(n);
+
+function formatMoney(value){
+
+  return Number(value).toLocaleString("en-US") + " $";
+
 }
 
-function playTone(type="click"){
- if(!sound) return;
 
- try{
-  const ctx=new (window.AudioContext||window.webkitAudioContext)();
-  const osc=ctx.createOscillator();
-  const gain=ctx.createGain();
+function playTone(type = "click"){
 
-  osc.connect(gain);
-  gain.connect(ctx.destination);
+  if(!soundEnabled) return;
 
-  let freq=500;
+  try{
 
-  if(type==="correct")freq=850;
-  if(type==="wrong")freq=180;
-  if(type==="win")freq=1100;
+    const AudioContext =
+      window.AudioContext ||
+      window.webkitAudioContext;
 
-  osc.frequency.value=freq;
-  osc.type="sine";
+    if(!AudioContext) return;
 
-  gain.gain.setValueAtTime(.0001,ctx.currentTime);
-  gain.gain.exponentialRampToValueAtTime(.12,ctx.currentTime+.03);
-  gain.gain.exponentialRampToValueAtTime(.0001,ctx.currentTime+.35);
+    const audio = new AudioContext();
 
-  osc.start();
-  osc.stop(ctx.currentTime+.36);
- }catch(e){}
+    const oscillator = audio.createOscillator();
+    const gain = audio.createGain();
+
+    oscillator.connect(gain);
+    gain.connect(audio.destination);
+
+    if(type === "correct"){
+      oscillator.frequency.value = 720;
+    }
+    else if(type === "wrong"){
+      oscillator.frequency.value = 180;
+    }
+    else if(type === "win"){
+      oscillator.frequency.value = 900;
+    }
+    else{
+      oscillator.frequency.value = 420;
+    }
+
+    gain.gain.setValueAtTime(
+      0.0001,
+      audio.currentTime
+    );
+
+    gain.gain.exponentialRampToValueAtTime(
+      0.08,
+      audio.currentTime + 0.02
+    );
+
+    gain.gain.exponentialRampToValueAtTime(
+      0.0001,
+      audio.currentTime + 0.22
+    );
+
+    oscillator.start();
+
+    oscillator.stop(
+      audio.currentTime + 0.24
+    );
+
+  }catch(error){
+
+    console.log("Audio unavailable");
+
+  }
 }
+
+
+/* =========================================
+   الصوت
+========================================= */
 
 function toggleSound(){
- sound=!sound;
- document.getElementById("soundBtn").textContent=sound?"🔊":"🔇";
- localStorage.setItem("programmerSound",sound?"1":"0");
+
+  soundEnabled = !soundEnabled;
+
+  localStorage.setItem(
+    "programmerSound",
+    soundEnabled ? "on" : "off"
+  );
+
+  const button =
+    document.getElementById("soundBtn");
+
+  if(button){
+    button.textContent =
+      soundEnabled ? "🔊" : "🔇";
+  }
+
+  if(soundEnabled){
+    playTone("click");
+  }
 }
 
-function openModal(title,text){
- document.getElementById("modalTitle").textContent=title;
- document.getElementById("modalText").textContent=text;
- document.getElementById("modalOverlay").classList.add("show");
+
+/* =========================================
+   النافذة المنبثقة
+========================================= */
+
+function openModal(
+  icon,
+  title,
+  text,
+  callback = null
+){
+
+  const overlay =
+    document.getElementById("modalOverlay");
+
+  document.getElementById("modalIcon").textContent =
+    icon;
+
+  document.getElementById("modalTitle").textContent =
+    title;
+
+  document.getElementById("modalText").textContent =
+    text;
+
+  overlay.classList.add("show");
+
+  overlay.dataset.callback =
+    callback ? "yes" : "no";
+
+  window.modalCallback = callback;
 }
+
 
 function closeModal(){
- document.getElementById("modalOverlay").classList.remove("show");
+
+  document
+    .getElementById("modalOverlay")
+    .classList.remove("show");
+
+  if(typeof window.modalCallback === "function"){
+
+    const callback =
+      window.modalCallback;
+
+    window.modalCallback = null;
+
+    callback();
+
+  }
+
 }
 
-/* =========================
-   البداية
-========================= */
+
+/* =========================================
+   شاشة الاسم
+========================================= */
 
 function showName(){
- playTone();
- showScreen("nameScreen");
- setTimeout(()=>document.getElementById("nameInput").focus(),200);
+
+  playTone("click");
+
+  showScreen("nameScreen");
+
+  setTimeout(() => {
+
+    const input =
+      document.getElementById("nameInput");
+
+    if(input){
+      input.focus();
+    }
+
+  },300);
 }
+
+
+/* =========================================
+   بدء اللعبة
+========================================= */
 
 function startGame(){
- const input=document.getElementById("nameInput").value.trim();
 
- if(!input){
-  openModal("اكتب اسمك أولًا ✍️","من فضلك اكتب اسم اللاعب حتى نبدأ التحدي.");
-  return;
- }
+  const input =
+    document.getElementById("nameInput");
 
- player=input;
- document.getElementById("playerName").textContent=player;
+  playerName =
+    input.value.trim();
 
- index=0;
- correctCount=0;
- locked=false;
+  if(!playerName){
 
- used={f:false,h:false,p:false,s:false};
+    openModal(
+      "👤",
+      "أدخل اسمك أولًا",
+      "اكتب اسم اللاعب حتى نبدأ التحدي."
+    );
 
- resetLifeButtons();
- buildLadder();
+    return;
+  }
 
- showScreen("gameScreen");
- loadQuestion();
+  currentQuestion = 0;
+  correctAnswers = 0;
+  currentPrize = 0;
+
+  used5050 = false;
+  usedHint = false;
+  usedPoll = false;
+  usedSwap = false;
+
+  wheelBonus = 0;
+  wheelSpinning = false;
+
+  clearInterval(timerInterval);
+
+  document.getElementById("playerName").textContent =
+    playerName;
+
+  resetLifeButtons();
+
+  buildLadder();
+
+  updateLadder();
+
+  showScreen("gameScreen");
+
+  loadQuestion();
+
+  playTone("win");
 }
+
+
+/* =========================================
+   أزرار وسائل المساعدة
+========================================= */
 
 function resetLifeButtons(){
- document.querySelectorAll(".life").forEach(b=>b.classList.remove("used"));
+
+  const buttons = [
+    "life5050",
+    "lifeHint",
+    "lifePoll",
+    "lifeSwap"
+  ];
+
+  buttons.forEach(id => {
+
+    const button =
+      document.getElementById(id);
+
+    if(button){
+
+      button.disabled = false;
+      button.classList.remove("used");
+
+    }
+
+  });
+
 }
 
-/* =========================
+
+/* =========================================
    سلم الجوائز
-========================= */
+========================================= */
 
 function buildLadder(){
- const list=document.getElementById("ladderList");
 
- list.innerHTML=prizes.map((p,i)=>{
-  const safe=(i===4||i===8);
-  const current=i===index;
+  const ladder =
+    document.getElementById("ladderList");
 
-  return `
-   <div class="prize ${safe?"safe":""} ${current?"current":""}">
-    <span>${i+1}</span>
-    <span>${formatMoney(p)} ${safe?"⭐":""}</span>
-   </div>
-  `;
- }).reverse().join("");
+  if(!ladder) return;
+
+  ladder.innerHTML = "";
+
+  prizes
+    .slice()
+    .reverse()
+    .forEach((prize, reverseIndex) => {
+
+      const actualIndex =
+        prizes.length - 1 - reverseIndex;
+
+      const item =
+        document.createElement("div");
+
+      item.className =
+        "ladder-item";
+
+      item.dataset.level =
+        actualIndex;
+
+      item.innerHTML =
+        "<span>" +
+        (actualIndex + 1) +
+        "</span>" +
+        "<strong>" +
+        formatMoney(prize) +
+        "</strong>";
+
+      ladder.appendChild(item);
+
+    });
+
 }
+
 
 function updateLadder(){
- buildLadder();
+
+  document
+    .querySelectorAll(".ladder-item")
+    .forEach(item => {
+
+      const level =
+        Number(item.dataset.level);
+
+      item.classList.remove(
+        "current",
+        "passed"
+      );
+
+      if(level < currentQuestion){
+
+        item.classList.add("passed");
+
+      }
+
+      if(level === currentQuestion){
+
+        item.classList.add("current");
+
+      }
+
+    });
+
+  const levelText =
+    document.getElementById("levelText");
+
+  if(levelText){
+
+    levelText.textContent =
+      "السؤال " +
+      (currentQuestion + 1) +
+      " من " +
+      questions.length;
+
+  }
+
 }
 
-/* =========================
-   الأسئلة
-========================= */
+
+/* =========================================
+   تحميل السؤال
+========================================= */
 
 function loadQuestion(){
- clearInterval(timer);
 
- if(index>=9){
-  startMillion();
-  return;
- }
+  clearInterval(timerInterval);
 
- const q=questions[index % questions.length];
+  if(currentQuestion >= questions.length){
 
- locked=false;
+    startMillion();
 
- document.getElementById("levelText").textContent=
-  `السؤال ${index+1} من 9 • الجائزة ${formatMoney
+    return;
+  }
+
+  const data =
+    questions[currentQuestion];
+
+  currentPrize =
+    prizes[
+      Math.min(
+        currentQuestion,
+        prizes.length - 1
+      )
+    ];
+
+  const questionElement =
+    document.getElementById("question");
+
+  const answersElement =
+    document.getElementById("answers");
+
+  questionElement.textContent =
+    data.question;
+
+  answersElement.innerHTML = "";
+
+  data.answers.forEach((answer,index) => {
+
+    const button =
+      document.createElement("button");
+
+    button.className =
+      "answer";
+
+    button.dataset.index =
+      index;
+
+    button.innerHTML =
+      "<span class='answer-letter'>" +
+      String.fromCharCode(65 + index) +
+      "</span>" +
+      "<span>" +
+      answer +
+      "</span>";
+
+    button.onclick =
+      () => chooseAnswer(index);
+
+    answersElement.appendChild(button);
+
+  });
+
+  const progress =
+    document.getElementById("progressBar");
+
+  if(progress){
+
+    const percent =
+      (currentQuestion /
+      questions.length) * 100;
+
+    progress.style.width =
+      percent + "%";
+
+  }
+
+  updateLadder();
+
+  startTimer();
+
+}
+
+
+/* =========================================
+   المؤقت
+========================================= */
+
+function startTimer(){
+
+  clearInterval(timerInterval);
+
+  timerValue = 30;
+
+  updateTimer();
+
+  timerInterval =
+    setInterval(() => {
+
+      timerValue--;
+
+      updateTimer();
+
+      if(timerValue <= 0){
+
+        clearInterval(timerInterval);
+
+        timeOut();
+
+      }
+
+    },1000);
+
+}
+
+
+function updateTimer(){
+
+  const timer =
+    document.getElementById("timer");
+
+  if(!timer) return;
+
+  timer.textContent =
+    timerValue;
+
+  timer.classList.remove(
+    "warning",
+    "danger"
+  );
+
+  if(timerValue <= 10){
+
+    timer.classList.add("warning");
+
+  }
+
+  if(timerValue <= 5){
+
+    timer.classList.remove("warning");
+    timer.classList.add("danger");
+
+  }
+
+}
+
+
+function timeOut(){
+
+  playTone("wrong");
+
+  openModal(
+    "⏰",
+    "انتهى الوقت!",
+    "لم تتم الإجابة خلال 30 ثانية."
+  );
+
+  finishGame(
+    Math.max(
+      0,
+      getCurrentPrize() - 1
+    ),
+    "timeout"
+  );
+
+}
+
+
+/* =========================================
+   الإجابة
+========================================= */
+
+function chooseAnswer(index){
+
+  clearInterval(timerInterval);
+
+  const data =
+    questions[currentQuestion];
+
+  const buttons =
+    document.querySelectorAll(
+      "#answers .answer"
+    );
+
+  buttons.forEach(button => {
+    button.disabled = true;
+  });
+
+  if(index === data.correct){
+
+    correctAnswers++;
+
+    buttons[index].classList.add(
+      "correct"
+    );
+
+    playTone("correct");
+
+    const prize =
+      getCurrentPrize();
+
+    setTimeout(() => {
+
+      currentQuestion++;
+
+      if(currentQuestion >= questions.length){
+
+        startMillion();
+
+        return;
+
+      }
+
+      loadQuestion();
+
+    },900);
+
+  }
+  else{
+
+    buttons[index].classList.add(
+      "wrong"
+    );
+
+    if(buttons[data.correct]){
+
+      buttons[data.correct]
+        .classList.add("correct");
+
+    }
+
+    playTone("wrong");
+
+    setTimeout(() => {
+
+      finishGame(
+        getSafePrize(),
+        "wrong"
+      );
+
+    },1000);
+
+  }
+
+}
+
+
+/* =========================================
+   الجوائز
+========================================= */
+
+function getCurrentPrize(){
+
+  if(currentQuestion < 0){
+    return 0;
+  }
+
+  if(currentQuestion >= prizes.length){
+    return prizes[prizes.length - 1];
+  }
+
+  return prizes[currentQuestion];
+}
+
+
+function getSafePrize(){
+
+  let safePrize = 0;
+
+  safeLevels.forEach(level => {
+
+    if(currentQuestion >= level){
+
+      safePrize =
+        prizes[level];
+
+    }
+
+  });
+
+  return safePrize;
+}
+
+
+/* =========================================
+   وسيلة 50:50
+========================================= */
+
+function use5050(){
+
+  if(used5050) return;
+
+  used5050 = true;
+
+  const button =
+    document.getElementById("life5050");
+
+  if(button){
+
+    button.disabled = true;
+    button.classList.add("used");
+
+  }
+
+  const data =
+    questions[currentQuestion];
+
+  const buttons =
+    Array.from(
+      document.querySelectorAll(
+        "#answers .answer"
+      )
+    );
+
+  const wrongButtons =
+    buttons.filter(
+      (_,index) =>
+        index !== data.correct
+    );
+
+  wrongButtons
+    .sort(() => Math.random() - 0.5)
+    .slice(0,2)
+    .forEach(button => {
+
+      button.disabled = true;
+      button.style.opacity = "0.25";
+
+    });
+
+  playTone("click");
+
+}
+
+
+/* =========================================
+   وسيلة التلميح
+========================================= */
+
+function useHint(){
+
+  if(usedHint) return;
+
+  usedHint = true;
+
+  const button =
+    document.getElementById("lifeHint");
+
+  if(button){
+
+    button.disabled = true;
+    button.classList.add("used");
+
+  }
+
+  const data =
+    questions[currentQuestion];
+
+  playTone("click");
+
+  openModal(
+    "💡",
+    "تلميح",
+    data.hint
+  );
+
+}
+
+
+/* =========================================
+   تصويت الجمهور
+========================================= */
+
+function usePoll(){
+
+  if(usedPoll) return;
+
+  usedPoll = true;
+
+  const button =
+    document.getElementById("lifePoll");
+
+  if(button){
+
+    button.disabled = true;
+    button.classList.add("used");
+
+  }
+
+  const data =
+    questions[currentQuestion];
+
+  const correct =
+    data.correct;
+
+  let percentages =
+    [8,8,8,8];
+
+  percentages[correct] = 76;
+
+  let remaining = 24;
+
+  const others =
+    [0,1,2,3]
+      .filter(i => i !== correct);
+
+  others.forEach((index,pos) => {
+
+    if(pos === others.length - 1){
+
+      percentages[index] =
+        remaining;
+
+    }
+    else{
+
+      const value =
+        Math.floor(
+          Math.random() *
+          (remaining - 2)
+        ) + 1;
+
+      percentages[index] =
+        value;
+
+      remaining -= value;
+
+    }
+
+  });
+
+  const result =
+    "نتيجة تصويت الجمهور:\n\n" +
+    "A: " + percentages[0] + "%\n" +
+    "B: " + percentages[1] + "%\n" +
+    "C: " + percentages[2] + "%\n" +
+    "D: " + percentages[3] + "%";
+
+  playTone("click");
+
+  openModal(
+    "📊",
+    "تصويت الجمهور",
+    result
+  );
+
+}
+
+
+/* =========================================
+   تبديل السؤال
+========================================= */
+
+function useSwap(){
+
+  if(usedSwap) return;
+
+  usedSwap = true;
+
+  const button =
+    document.getElementById("lifeSwap");
+
+  if(button){
+
+    button.disabled = true;
+    button.classList.add("used");
+
+  }
+
+  clearInterval(timerInterval);
+
+  let newQuestionIndex =
+    Math.floor(
+      Math.random() * questions.length
+    );
+
+  if(newQuestionIndex === currentQuestion){
+
+    newQuestionIndex =
+      (newQuestionIndex + 1) %
+      questions.length;
+
+  }
+
+  currentQuestion =
+    newQuestionIndex;
+
+  playTone("click");
+
+  loadQuestion();
+
+}
+
+
+/* =========================================
+   عجلة الحظ
+========================================= */
+
+function showWheel(){
+
+  clearInterval(timerInterval);
+
+  showScreen("wheelScreen");
+
+  const result =
+    document.getElementById("wheelResult");
+
+  if(result){
+
+    result.textContent =
+      "أدر العجلة لتحصل على مكافأة إضافية!";
+
+  }
+
+}
+
+
+/* =========================================
+   تدوير العجلة
+========================================= */
+
+function spinWheel(){
+
+  if(wheelSpinning) return;
+
+  wheelSpinning = true;
+
+  const button =
+    document.getElementById("spinButton");
+
+  if(button){
+
+    button.disabled = true;
+    button.textContent = "🎡 تدور العجلة...";
+
+  }
+
+  const wheel =
+    document.getElementById("wheel");
+
+  const rewards = [
+    10000,
+    20000,
+    5000,
+    50000,
+    15000,
+    25000
+  ];
+
+  const selected =
+    Math.floor(
+      Math.random() * rewards.length
+    );
+
+  wheelBonus =
+    rewards[selected];
+
+  const rotations =
+    5 + Math.floor(
+      Math.random() * 3
+    );
+
+  const angle =
+    rotations * 360 +
+    selected * 60 +
+    30;
+
+  wheel.style.transform =
+    "rotate(" + angle + "deg)";
+
+  playTone("click");
+
+  setTimeout(() => {
+
+    const result =
+      document.getElementById("wheelResult");
+
+    if(result){
+
+      result.textContent =
+        "🎉 حصلت على مكافأة " +
+        formatMoney(wheelBonus);
+
+    }
+
+    playTone("win");
+
+    setTimeout(() => {
+
+      wheelSpinning = false;
+
+      if(button){
+
+        button.disabled = false;
+        button.textContent =
+          "➡️ العودة إلى التحدي";
+
+        button.onclick =
+          () => {
+
+            showScreen("gameScreen");
+            loadQuestion();
+
+          };
+
+      }
+
+    },1200);
+
+  },4200);
+
+}
+
+
+/* =========================================
+   الجولة النهائية
+========================================= */
+
+function startMillion(){
+
+  clearInterval(timerInterval);
+
+  showScreen("millionScreen");
+
+  const question =
+    document.getElementById(
+      "millionQuestion"
+    );
+
+  const answers =
+    document.getElementById(
+      "millionAnswers"
+    );
+
+  question.textContent =
+    millionQuestion.question;
+
+  answers.innerHTML = "";
+
+  mi
+ <!-- ============================= -->
+<!-- الجزء 4 من 4 -->
+<!-- إكمال اللعبة + التشغيل -->
+<!-- ============================= -->
+
+<script>
+
+/* =========================================
+   إنهاء اللعبة
+========================================= */
+
+function finishGame(prize, reason){
+
+  clearInterval(timerInterval);
+
+  currentPrize = Math.max(
+    0,
+    Number(prize) || 0
+  );
+
+  const resultMoney =
+    document.getElementById("resultMoney");
+
+  const resultTitle =
+    document.getElementById("resultTitle");
+
+  const resultName =
+    document.getElementById("resultName");
+
+  const resultLevel =
+    document.getElementById("resultLevel");
+
+  const resultCorrect =
+    document.getElementById("resultCorrect");
+
+  const resultPercent =
+    document.getElementById("resultPercent");
+
+  const resultTrophy =
+    document.getElementById("resultTrophy");
+
+  if(resultMoney){
+
+    resultMoney.textContent =
+      formatMoney(currentPrize);
+
+  }
+
+  if(resultName){
+
+    resultName.textContent =
+      "المتسابق: " + playerName;
+
+  }
+
+  if(resultLevel){
+
+    resultLevel.textContent =
+      Math.min(
+        currentQuestion + 1,
+        questions.length
+      );
+
+  }
+
+  if(resultCorrect){
+
+    resultCorrect.textContent =
+      correctAnswers;
+
+  }
+
+  const totalQuestions =
+    Math.max(
+      1,
+      currentQuestion + 1
+    );
+
+  const percent =
+    Math.round(
+      (correctAnswers / totalQuestions) * 100
+    );
+
+  if(resultPercent){
+
+    resultPercent.textContent =
+      percent + "%";
+
+  }
+
+  if(resultTitle){
+
+    if(reason === "million"){
+
+      resultTitle.textContent =
+        "👑 أنت مليونير!";
+
+    }
+    else if(reason === "wrong"){
+
+      resultTitle.textContent =
+        "💪 محاولة رائعة!";
+
+    }
+    else if(reason === "timeout"){
+
+      resultTitle.textContent =
+        "⏰ انتهى الوقت!";
+
+    }
+    else if(reason === "giveup"){
+
+      resultTitle.textContent =
+        "💰 انسحاب ذكي!";
+
+    }
+    else if(reason === "million-wrong"){
+
+      resultTitle.textContent =
+        "👏 وصلت إلى الجولة النهائية!";
+
+    }
+    else{
+
+      resultTitle.textContent =
+        "🏆 أحسنت يا بطل!";
+
+    }
+
+  }
+
+  if(resultTrophy){
+
+    if(currentPrize >= 1000000){
+
+      resultTrophy.textContent = "👑";
+
+    }
+    else if(currentPrize >= 100000){
+
+      resultTrophy.textContent = "🏆";
+
+    }
+    else if(currentPrize > 0){
+
+      resultTrophy.textContent = "🥇";
+
+    }
+    else{
+
+      resultTrophy.textContent = "🎮";
+
+    }
+
+  }
+
+  saveBest(currentPrize);
+
+  updateBestScore();
+
+  showScreen("resultScreen");
+
+  if(currentPrize >= 1000000){
+
+    createConfetti();
+
+    setTimeout(() => {
+      createConfetti();
+    },700);
+
+  }
+
+}
+
+
+/* =========================================
+   أفضل نتيجة
+========================================= */
+
+function saveBest(score){
+
+  const oldBest =
+    Number(
+      localStorage.getItem(
+        "programmerBest"
+      ) || 0
+    );
+
+  if(score > oldBest){
+
+    localStorage.setItem(
+      "programmerBest",
+      score
+    );
+
+  }
+
+}
+
+
+function updateBestScore(){
+
+  const element =
+    document.getElementById("bestScore");
+
+  if(!element) return;
+
+  const best =
+    Number(
+      localStorage.getItem(
+        "programmerBest"
+      ) || 0
+    );
+
+  if(best > 0){
+
+    element.textContent =
+      "⭐ أفضل نتيجة: " +
+      formatMoney(best);
+
+  }
+  else{
+
+    element.textContent = "";
+
+  }
+
+}
+
+
+/* =========================================
+   إعادة اللعب
+========================================= */
+
+function restartGame(){
+
+  clearInterval(timerInterval);
+
+  currentQuestion = 0;
+  correctAnswers = 0;
+  currentPrize = 0;
+  wheelBonus = 0;
+
+  used5050 = false;
+  usedHint = false;
+  usedPoll = false;
+  usedSwap = false;
+
+  wheelSpinning = false;
+
+  const input =
+    document.getElementById("nameInput");
+
+  if(input){
+
+    input.value =
+      playerName || "";
+
+  }
+
+  resetLifeButtons();
+
+  buildLadder();
+
+  showScreen("gameScreen");
+
+  loadQuestion();
+
+  playTone("click");
+
+}
+
+
+/* =========================================
+   العودة للبداية
+========================================= */
+
+function goHome(){
+
+  clearInterval(timerInterval);
+
+  showScreen("startScreen");
+
+}
+
+
+/* =========================================
+   المؤثرات — جسيمات الخلفية
+========================================= */
+
+function createParticles(){
+
+  const amount = 35;
+
+  for(let i = 0; i < amount; i++){
+
+    const particle =
+      document.createElement("div");
+
+    particle.className =
+      "particle";
+
+    particle.style.left =
+      Math.random() * 100 + "%";
+
+    particle.style.animationDuration =
+      (7 + Math.random() * 12) + "s";
+
+    particle.style.animationDelay =
+      (-Math.random() * 12) + "s";
+
+    particle.style.width =
+      (2 + Math.random() * 5) + "px";
+
+    particle.style.height =
+      particle.style.width;
+
+    document.body.appendChild(
+      particle
+    );
+
+  }
+
+}
+
+
+/* =========================================
+   مؤثر الاحتفال
+========================================= */
+
+function createConfetti(){
+
+  const pieces = 80;
+
+  for(let i = 0; i < pieces; i++){
+
+    const piece =
+      document.createElement("div");
+
+    piece.className =
+      "confetti";
+
+    piece.style.left =
+      Math.random() * 100 + "vw";
+
+    piece.style.animationDuration =
+      (2 + Math.random() * 2) + "s";
+
+    piece.style.animationDelay =
+      (Math.random() * .8) + "s";
+
+    piece.style.transform =
+      "rotate(" +
+      Math.random() * 360 +
+      "deg)";
+
+    piece.style.background =
+      [
+        "#facc15",
+        "#22c55e",
+        "#3b82f6",
+        "#ef4444",
+        "#a855f7",
+        "#06b6d4"
+      ][
+        Math.floor(
+          Math.random() * 6
+        )
+      ];
+
+    document.body.appendChild(
+      piece
+    );
+
+    setTimeout(() => {
+
+      piece.remove();
+
+    },4500);
+
+  }
+
+}
+
+
+/* =========================================
+   دعم زر Enter
+========================================= */
+
+document.addEventListener(
+  "keydown",
+  function(event){
+
+    if(event.key === "Enter"){
+
+      const nameScreen =
+        document.getElementById(
+          "nameScreen"
+        );
+
+      if(
+        nameScreen &&
+        nameScreen.classList.contains("active")
+      ){
+
+        startGame();
+
+      }
+
+    }
+
+  }
+);
+
+
+/* =========================================
+   منع اختيار النص بالخطأ أثناء اللعب
+========================================= */
+
+document.addEventListener(
+  "dblclick",
+  function(event){
+
+    if(
+      event.target.closest(".answer") ||
+      event.target.closest(".million-answer")
+    ){
+
+      event.preventDefault();
+
+    }
+
+  }
+);
+
+
+/* =========================================
+   تهيئة اللعبة
+========================================= */
+
+function init(){
+
+  const savedSound =
+    localStorage.getItem(
+      "programmerSound"
+    );
+
+  if(savedSound === "off"){
+
+    soundEnabled = false;
+
+  }
+  else{
+
+    soundEnabled = true;
+
+  }
+
+  const soundButton =
+    document.getElementById("soundBtn");
+
+  if(soundButton){
+
+    soundButton.textContent =
+      soundEnabled ? "🔊" : "🔇";
+
+  }
+
+  buildLadder();
+
+  updateBestScore();
+
+  createParticles();
+
+  showScreen("startScreen");
+
+}
+
+
+/* =========================================
+   تشغيل اللعبة بعد تحميل الصفحة
+========================================= */
+
+if(
+  document.readyState === "loading"
+){
+
+  document.addEventListener(
+    "DOMContentLoaded",
+    init
+  );
+
+}
+else{
+
+  init();
+
+}
+
+</script>
+
+<!-- ============================= -->
+<!-- نهاية ملف اللعبة -->
+<!-- ============================= -->
+
+</body>
+</html>
