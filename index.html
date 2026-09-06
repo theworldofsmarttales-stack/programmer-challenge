@@ -1,1339 +1,1085 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>تحدي المبرمج الصغير 2.0 | AmnaTech</title>
-<meta name="description" content="تحدي المبرمج الصغير 2.0 - لعبة تعليمية مستقلة">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<meta name="theme-color" content="#080b24">
+<title>تحدي المبرمج الصغير 3.0 | AmnaTech</title>
 
 <style>
-:root{
-  --bg:#07111f;
-  --panel:#0d1b2e;
-  --panel2:#10243d;
-  --text:#f8fafc;
-  --muted:#9fb2c8;
-  --cyan:#22d3ee;
-  --blue:#3b82f6;
-  --green:#22c55e;
-  --yellow:#facc15;
-  --red:#ef4444;
-  --line:#24415f;
-  --shadow:0 18px 50px rgba(0,0,0,.35);
-}
+*{box-sizing:border-box;margin:0;padding:0}
 
-*{
-  box-sizing:border-box;
+:root{
+ --bg:#07091d;
+ --panel:#101532;
+ --panel2:#151b40;
+ --gold:#ffd54a;
+ --gold2:#ff9f1c;
+ --cyan:#36d9ff;
+ --green:#35e58b;
+ --red:#ff5570;
+ --text:#f6f8ff;
+ --muted:#9ba6c9;
+ --border:rgba(255,255,255,.12);
+ --shadow:0 20px 60px rgba(0,0,0,.45);
 }
 
 html,body{
-  margin:0;
-  min-height:100%;
-  font-family:Tahoma,Arial,sans-serif;
-  background:
-    radial-gradient(circle at 50% -10%,#173b62 0,#07111f 45%,#030812 100%);
-  color:var(--text);
+ width:100%;
+ min-height:100%;
+ background:var(--bg);
+ color:var(--text);
+ font-family:Tahoma,Arial,sans-serif;
 }
 
 body{
-  overflow-x:hidden;
+ overflow-x:hidden;
 }
 
 button,input{
-  font:inherit;
+ font-family:inherit;
 }
 
 button{
-  cursor:pointer;
+ cursor:pointer;
+ border:0;
 }
 
-#app{
-  min-height:100vh;
-  position:relative;
-  overflow:hidden;
+#particles{
+ position:fixed;
+ inset:0;
+ pointer-events:none;
+ overflow:hidden;
+ z-index:0;
 }
 
-#stars{
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  opacity:.7;
-  background-image:
-    radial-gradient(#8bdcf0 1px,transparent 1px),
-    radial-gradient(#fff 1px,transparent 1px);
-  background-size:67px 67px,113px 113px;
-  background-position:0 0,31px 47px;
-  animation:drift 22s linear infinite;
+.particle{
+ position:absolute;
+ width:4px;
+ height:4px;
+ border-radius:50%;
+ background:rgba(54,217,255,.55);
+ animation:float linear infinite;
 }
 
-@keyframes drift{
-  to{
-    background-position:67px 67px,144px 160px;
-  }
+@keyframes float{
+ from{transform:translateY(110vh) scale(.5);opacity:0}
+ 20%{opacity:1}
+ 80%{opacity:.8}
+ to{transform:translateY(-20vh) scale(1.4);opacity:0}
 }
 
 .screen{
-  display:none;
-  min-height:100vh;
-  position:relative;
-  z-index:1;
-  padding:28px 18px;
+ position:relative;
+ z-index:1;
+ min-height:100vh;
+ display:none;
+ align-items:center;
+ justify-content:center;
+ padding:20px;
 }
 
 .screen.active{
-  display:flex;
-  align-items:center;
-  justify-content:center;
+ display:flex;
 }
 
-.card{
-  width:min(920px,100%);
-  background:
-    linear-gradient(
-      145deg,
-      rgba(16,36,61,.96),
-      rgba(7,17,31,.96)
-    );
-  border:1px solid var(--line);
-  border-radius:28px;
-  padding:28px;
-  box-shadow:var(--shadow);
-  backdrop-filter:blur(10px);
+.container{
+ width:min(1100px,100%);
+ margin:auto;
+}
+
+.glass{
+ background:linear-gradient(145deg,rgba(22,29,67,.94),rgba(8,12,34,.94));
+ border:1px solid var(--border);
+ box-shadow:var(--shadow);
+ backdrop-filter:blur(15px);
+ border-radius:28px;
 }
 
 .logo{
-  font-size:clamp(28px,6vw,58px);
-  font-weight:900;
-  text-align:center;
-  letter-spacing:-1px;
-  color:#fff;
-  text-shadow:0 0 25px rgba(34,211,238,.35);
+ width:105px;
+ height:105px;
+ margin:0 auto 20px;
+ border-radius:30px;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ font-size:55px;
+ background:linear-gradient(145deg,#ffd54a,#ff8a00);
+ box-shadow:0 0 50px rgba(255,181,45,.3);
+ animation:pulseLogo 2.5s infinite;
 }
 
-.logo span{
-  color:var(--cyan);
+@keyframes pulseLogo{
+ 0%,100%{transform:scale(1)}
+ 50%{transform:scale(1.06)}
+}
+
+.title{
+ text-align:center;
+ font-size:clamp(32px,7vw,68px);
+ font-weight:900;
+ background:linear-gradient(90deg,#fff,#ffd54a,#36d9ff,#fff);
+ background-size:250%;
+ -webkit-background-clip:text;
+ color:transparent;
+ animation:titleMove 5s linear infinite;
+}
+
+@keyframes titleMove{
+ to{background-position:250% center}
 }
 
 .subtitle{
-  text-align:center;
-  color:var(--muted);
-  font-size:18px;
-  margin:10px 0 28px;
+ text-align:center;
+ color:var(--muted);
+ font-size:clamp(15px,3vw,20px);
+ margin-top:12px;
 }
 
-.btn{
-  border:0;
-  border-radius:16px;
-  padding:14px 22px;
-  font-weight:800;
-  color:#fff;
-  background:linear-gradient(135deg,var(--blue),#7c3aed);
-  box-shadow:0 8px 25px rgba(59,130,246,.2);
-  transition:.18s;
-  min-height:50px;
+.hero-card{
+ max-width:760px;
+ margin:auto;
+ padding:40px 25px;
+ text-align:center;
 }
 
-.btn:hover{
-  transform:translateY(-2px);
-  filter:brightness(1.08);
+.primary-btn{
+ display:inline-flex;
+ align-items:center;
+ justify-content:center;
+ gap:10px;
+ margin-top:30px;
+ padding:17px 42px;
+ border-radius:18px;
+ font-size:20px;
+ font-weight:900;
+ color:#171100;
+ background:linear-gradient(135deg,#ffe36b,#ffab19);
+ box-shadow:0 10px 30px rgba(255,180,40,.25);
+ transition:.2s;
 }
 
-.btn:disabled{
-  opacity:.45;
-  cursor:not-allowed;
-  transform:none;
+.primary-btn:hover{
+ transform:translateY(-3px) scale(1.02);
+ box-shadow:0 15px 40px rgba(255,180,40,.4);
 }
 
-.btn.secondary{
-  background:#18314f;
-  border:1px solid #315273;
+.secondary-btn{
+ padding:13px 25px;
+ border-radius:14px;
+ background:#202850;
+ color:white;
+ font-weight:bold;
+ border:1px solid var(--border);
 }
 
-.btn.green{
-  background:linear-gradient(135deg,#16a34a,#059669);
+.name-card{
+ width:min(520px,100%);
+ padding:35px;
+ text-align:center;
 }
 
-.btn.red{
-  background:linear-gradient(135deg,#dc2626,#be123c);
+.name-card h2{
+ font-size:30px;
+ margin-bottom:10px;
 }
 
-.btn.yellow{
-  background:linear-gradient(135deg,#ca8a04,#f59e0b);
-  color:#111827;
+.name-input{
+ width:100%;
+ margin-top:25px;
+ padding:17px;
+ border-radius:15px;
+ border:2px solid rgba(255,213,74,.2);
+ background:#080c24;
+ color:white;
+ outline:none;
+ text-align:center;
+ font-size:20px;
 }
 
-.btn.wide{
-  width:100%;
-}
-
-.center{
-  text-align:center;
-}
-
-.row{
-  display:flex;
-  gap:12px;
-  flex-wrap:wrap;
-  align-items:center;
-  justify-content:center;
-}
-
-input{
-  width:100%;
-  background:#07111f;
-  border:1px solid #315273;
-  color:#fff;
-  border-radius:14px;
-  padding:15px 17px;
-  outline:0;
-}
-
-input:focus{
-  border-color:var(--cyan);
-  box-shadow:0 0 0 3px rgba(34,211,238,.12);
-}
-
-.label{
-  display:block;
-  color:#b9c9dc;
-  margin-bottom:9px;
-  font-weight:700;
-}
-
-.form{
-  max-width:460px;
-  margin:auto;
-}
-
-.pill{
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-  padding:8px 12px;
-  border:1px solid var(--line);
-  border-radius:999px;
-  background:#09182a;
-  color:#bfeaf2;
-  font-size:13px;
-}
-
-.levels{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:9px;
-  margin-top:18px;
-}
-
-.level{
-  padding:11px;
-  border-radius:12px;
-  background:#09182a;
-  border:1px solid #1e3b58;
-  text-align:center;
-  color:#d8e5f3;
-  font-weight:700;
-}
-
-.level.current{
-  background:#123a63;
-  border-color:var(--cyan);
-  box-shadow:0 0 20px rgba(34,211,238,.12);
-}
-
-.level.safe{
-  color:#86efac;
-  border-color:#17663a;
-}
-
-.level.done{
-  opacity:.55;
-}
-
-.game{
-  width:min(1100px,100%);
+.name-input:focus{
+ border-color:var(--gold);
 }
 
 .topbar{
-  display:flex;
-  justify-content:space-between;
-  gap:10px;
-  align-items:center;
-  margin-bottom:14px;
-  flex-wrap:wrap;
+ width:100%;
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ gap:10px;
+ margin-bottom:18px;
 }
 
-.money{
-  font-size:22px;
-  font-weight:900;
-  color:#fde68a;
+.badge{
+ padding:9px 15px;
+ border-radius:999px;
+ background:#171d42;
+ border:1px solid var(--border);
+ color:#dce3ff;
 }
 
-.player{
-  color:#b8c7d9;
+.sound-btn{
+ width:44px;
+ height:44px;
+ border-radius:50%;
+ background:#171d42;
+ color:white;
+ border:1px solid var(--border);
+ font-size:20px;
+}
+
+.ladder-layout{
+ display:grid;
+ grid-template-columns:280px 1fr;
+ gap:20px;
+ align-items:stretch;
+}
+
+.ladder{
+ padding:20px;
+}
+
+.ladder h3{
+ text-align:center;
+ margin-bottom:14px;
+ color:var(--gold);
+}
+
+.prize{
+ display:flex;
+ justify-content:space-between;
+ padding:10px 13px;
+ margin:5px 0;
+ border-radius:10px;
+ color:#b9c3e7;
+ font-weight:bold;
+ transition:.3s;
+}
+
+.prize.safe{
+ color:white;
+ border-bottom:1px solid rgba(255,213,74,.3);
+}
+
+.prize.current{
+ background:linear-gradient(90deg,#ffb300,#ff7a00);
+ color:#130d00;
+ transform:scale(1.04);
+ box-shadow:0 7px 20px rgba(255,160,30,.3);
+}
+
+.game-panel{
+ padding:28px;
+}
+
+.level{
+ text-align:center;
+ color:var(--cyan);
+ font-weight:bold;
+ margin-bottom:8px;
 }
 
 .question{
-  font-size:clamp(21px,3vw,31px);
-  line-height:1.7;
-  text-align:center;
-  margin:22px 0 24px;
-  font-weight:900;
+ min-height:145px;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ text-align:center;
+ font-size:clamp(21px,4vw,32px);
+ line-height:1.65;
+ font-weight:900;
+ padding:25px;
+ margin:15px 0;
+ border-radius:22px;
+ background:linear-gradient(145deg,#171e49,#0b1030);
+ border:1px solid rgba(54,217,255,.18);
 }
 
-.answers{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:13px;
+.timer-wrap{
+ width:90px;
+ height:90px;
+ margin:10px auto 20px;
+ border-radius:50%;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ background:conic-gradient(var(--cyan) var(--progress,100%),#20274d 0);
+ position:relative;
 }
 
-.answer{
-  background:#0a1a2d;
-  border:1px solid #2b4d70;
-  color:#fff;
-  border-radius:17px;
-  padding:18px;
-  text-align:right;
-  transition:.18s;
-  min-height:66px;
-}
-
-.answer:hover{
-  background:#102944;
-  border-color:#4b79a6;
-}
-
-.answer.correct{
-  background:rgba(34,197,94,.2);
-  border-color:#22c55e;
-}
-
-.answer.wrong{
-  background:rgba(239,68,68,.2);
-  border-color:#ef4444;
-}
-
-.answer.dim{
-  opacity:.22;
-  pointer-events:none;
-}
-
-.lifelines{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:10px;
-  margin-top:16px;
-}
-
-.life{
-  font-size:14px;
-  padding:12px 8px;
+.timer-wrap::before{
+ content:"";
+ position:absolute;
+ inset:7px;
+ border-radius:50%;
+ background:#0c112d;
 }
 
 .timer{
-  height:9px;
-  background:#07111f;
-  border-radius:99px;
-  overflow:hidden;
-  margin:8px 0 2px;
+ position:relative;
+ z-index:1;
+ font-size:25px;
+ font-weight:900;
 }
 
-.timer i{
-  display:block;
-  height:100%;
-  width:100%;
-  background:var(--cyan);
-  transform-origin:right;
+.answers{
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:13px;
 }
 
-.wheel-wrap{
-  text-align:center;
+.answer{
+ min-height:68px;
+ padding:15px;
+ border-radius:17px;
+ color:white;
+ background:#171e45;
+ border:1px solid rgba(255,255,255,.1);
+ font-size:17px;
+ font-weight:bold;
+ transition:.2s;
+}
+
+.answer:hover{
+ transform:translateY(-2px);
+ border-color:var(--cyan);
+ background:#1c2755;
+}
+
+.answer.correct{
+ background:linear-gradient(135deg,#117b55,#1fb875);
+ border-color:#66ffc0;
+ animation:correct .45s;
+}
+
+.answer.wrong{
+ background:linear-gradient(135deg,#8b1831,#d83d58);
+ border-color:#ff8498;
+ animation:shake .4s;
+}
+
+.answer.hidden{
+ opacity:.18;
+ pointer-events:none;
+ transform:scale(.96);
+}
+
+@keyframes correct{
+ 50%{transform:scale(1.04)}
+}
+
+@keyframes shake{
+ 25%{transform:translateX(7px)}
+ 50%{transform:translateX(-7px)}
+ 75%{transform:translateX(5px)}
+}
+
+.lifelines{
+ display:grid;
+ grid-template-columns:repeat(4,1fr);
+ gap:10px;
+ margin-top:18px;
+}
+
+.life{
+ padding:13px 8px;
+ border-radius:14px;
+ background:#11183a;
+ color:#fff;
+ border:1px solid var(--border);
+ font-size:14px;
+ font-weight:bold;
+}
+
+.life:hover{
+ border-color:var(--gold);
+}
+
+.life.used{
+ opacity:.3;
+ text-decoration:line-through;
+ pointer-events:none;
+}
+
+.progress{
+ height:8px;
+ border-radius:20px;
+ overflow:hidden;
+ background:#20274d;
+ margin-top:20px;
+}
+
+.progress-bar{
+ height:100%;
+ width:0;
+ background:linear-gradient(90deg,var(--cyan),var(--gold));
+ transition:.5s;
+}
+
+.wheel-card{
+ width:min(700px,100%);
+ padding:30px;
+ text-align:center;
 }
 
 .wheel{
-  width:min(310px,75vw);
-  aspect-ratio:1;
-  border-radius:50%;
-  margin:20px auto;
-  border:10px solid #e5e7eb;
-  box-shadow:
-    0 0 0 7px #1e3a5f,
-    0 0 45px rgba(34,211,238,.22);
-  display:grid;
-  place-items:center;
-  background:
-    conic-gradient(
-      #3b82f6 0 25%,
-      #8b5cf6 25% 50%,
-      #06b6d4 50% 75%,
-      #22c55e 75% 100%
-    );
-  position:relative;
-  transition:transform 3s cubic-bezier(.12,.7,.12,1);
+ width:min(380px,75vw);
+ aspect-ratio:1;
+ margin:25px auto;
+ border-radius:50%;
+ border:12px solid #e7b72f;
+ position:relative;
+ overflow:hidden;
+ box-shadow:0 0 50px rgba(255,200,50,.25);
+ transition:transform 4s cubic-bezier(.12,.75,.16,1);
+ background:
+ conic-gradient(
+ #ff5570 0deg 45deg,
+ #36d9ff 45deg 90deg,
+ #9d6bff 90deg 135deg,
+ #35e58b 135deg 180deg,
+ #ffb52e 180deg 225deg,
+ #ff5570 225deg 270deg,
+ #36d9ff 270deg 315deg,
+ #9d6bff 315deg 360deg
+ );
 }
 
-.wheel:after{
-  content:"🎡";
-  font-size:64px;
-  background:#081426;
-  border:4px solid #fff;
-  border-radius:50%;
-  width:100px;
-  height:100px;
-  display:grid;
-  place-items:center;
+.wheel::after{
+ content:"🎡";
+ position:absolute;
+ inset:35%;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ border-radius:50%;
+ background:#101532;
+ border:6px solid var(--gold);
+ font-size:35px;
 }
 
-.arrow{
-  font-size:32px;
-  color:#facc15;
+.pointer{
+ margin:auto;
+ width:0;
+ height:0;
+ border-left:18px solid transparent;
+ border-right:18px solid transparent;
+ border-top:35px solid var(--gold);
+ filter:drop-shadow(0 5px 5px #000);
 }
 
-.million{
-  font-size:clamp(45px,10vw,100px);
-  font-weight:1000;
-  color:#fde047;
-  text-shadow:0 0 35px rgba(250,204,21,.35);
-  text-align:center;
+.wheel-result{
+ min-height:45px;
+ font-size:22px;
+ color:var(--gold);
+ font-weight:900;
 }
 
-.result h2{
-  font-size:36px;
-  margin:8px 0;
+.million-card{
+ width:min(800px,100%);
+ padding:35px;
+ text-align:center;
+ border:2px solid rgba(255,213,74,.25);
 }
 
-.score{
-  font-size:26px;
-  color:#bae6fd;
+.million-number{
+ font-size:clamp(55px,13vw,120px);
+ font-weight:1000;
+ color:var(--gold);
+ text-shadow:0 0 35px rgba(255,190,30,.35);
+ margin:10px 0;
 }
 
-.small{
-  color:var(--muted);
-  line-height:1.8;
+.million-question{
+ font-size:clamp(20px,4vw,30px);
+ line-height:1.7;
+ margin:20px 0;
 }
 
-.toast{
-  position:fixed;
-  bottom:20px;
-  left:50%;
-  transform:translateX(-50%) translateY(30px);
-  background:#081426;
-  border:1px solid #3b5878;
-  padding:12px 18px;
-  border-radius:13px;
-  opacity:0;
-  pointer-events:none;
-  transition:.25s;
-  z-index:20;
+.result-card{
+ width:min(650px,100%);
+ padding:40px 25px;
+ text-align:center;
 }
 
-.toast.show{
-  opacity:1;
-  transform:translateX(-50%) translateY(0);
+.trophy{
+ font-size:80px;
+ animation:floatTrophy 2s infinite;
+}
+
+@keyframes floatTrophy{
+ 50%{transform:translateY(-10px) rotate(3deg)}
+}
+
+.result-name{
+ color:var(--cyan);
+ font-size:25px;
+ margin:10px 0;
+}
+
+.result-money{
+ font-size:clamp(40px,10vw,70px);
+ color:var(--gold);
+ font-weight:1000;
+ margin:15px 0;
+}
+
+.stats{
+ display:grid;
+ grid-template-columns:repeat(3,1fr);
+ gap:10px;
+ margin:25px 0;
+}
+
+.stat{
+ padding:18px 10px;
+ border-radius:15px;
+ background:#11183a;
+}
+
+.stat strong{
+ display:block;
+ font-size:25px;
+ color:white;
+ margin-bottom:5px;
+}
+
+.stat span{
+ color:var(--muted);
+ font-size:13px;
+}
+
+.overlay{
+ position:fixed;
+ inset:0;
+ z-index:20;
+ display:none;
+ align-items:center;
+ justify-content:center;
+ padding:20px;
+ background:rgba(3,5,18,.78);
+ backdrop-filter:blur(8px);
+}
+
+.overlay.show{
+ display:flex;
+}
+
+.modal{
+ width:min(500px,100%);
+ padding:30px;
+ text-align:center;
+}
+
+.modal h2{
+ color:var(--gold);
+ margin-bottom:15px;
+}
+
+.modal p{
+ line-height:1.8;
+ color:#d4daf1;
 }
 
 .confetti{
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  z-index:10;
+ position:fixed;
+ z-index:50;
+ width:9px;
+ height:16px;
+ top:-20px;
+ animation:confettiFall linear forwards;
 }
 
-@media(max-width:700px){
+@keyframes confettiFall{
+ to{
+  transform:translateY(110vh) rotate(720deg);
+  opacity:0;
+ }
+}
 
-  .card{
-    padding:20px;
-    border-radius:22px;
-  }
+.flash{
+ animation:flash .4s;
+}
 
-  .answers{
-    grid-template-columns:1fr;
-  }
+@keyframes flash{
+ 50%{filter:brightness(1.7)}
+}
 
-  .lifelines{
-    grid-template-columns:1fr 1fr;
-  }
+@media(max-width:800px){
+ .ladder-layout{
+  grid-template-columns:1fr;
+ }
+ .ladder{
+  order:2;
+ }
+ .game-panel{
+  order:1;
+ }
+ .ladder{
+  max-height:300px;
+  overflow:auto;
+ }
+}
 
-  .levels{
-    grid-template-columns:1fr 1fr;
-  }
-
-  .question{
-    font-size:21px;
-  }
+@media(max-width:560px){
+ .screen{
+  padding:12px;
+ }
+ .hero-card,.game-panel,.wheel-card,.million-card,.result-card{
+  padding:20px 14px;
+  border-radius:20px;
+ }
+ .answers{
+  grid-template-columns:1fr;
+ }
+ .lifelines{
+  grid-template-columns:1fr 1fr;
+ }
+ .stats{
+  grid-template-columns:1fr;
+ }
+ .question{
+  min-height:130px;
+ }
+ .primary-btn{
+  width:100%;
+ }
 }
 </style>
 </head>
 
 <body>
 
-<div id="app">
+<div id="particles"></div>
 
-<div id="stars"></div>
-
-<canvas id="confetti" class="confetti"></canvas>
-
-<!-- الصفحة الرئيسية -->
-<section id="start" class="screen active">
-
-  <div class="card center">
-
-    <div class="pill">
-      🎓 لعبة تعليمية مستقلة • AmnaTech
-    </div>
-
-    <div class="logo">
-      تحدي <span>المبرمج الصغير</span>
-    </div>
-
-    <div class="subtitle">
-      2.0 — اختبر معلوماتك البرمجية واصعد حتى المليون
-    </div>
-
-    <div class="row">
-      <button class="btn wide" onclick="show('name')">
-        ابدأ التحدي 🚀
-      </button>
-    </div>
-
-    <p class="small">
-      لا تحتاج اللعبة إلى خادم أو قاعدة بيانات.
-      تعمل مباشرة من ملف HTML واحد.
-    </p>
-
+<!-- البداية -->
+<section id="startScreen" class="screen active">
+ <div class="container">
+  <div class="hero-card glass">
+   <div class="logo">💻</div>
+   <h1 class="title">تحدي المبرمج الصغير</h1>
+   <p class="subtitle">AmnaTech • الإصدار الاحترافي 3.0</p>
+   <p class="subtitle" style="margin-top:22px">
+    اختبر معلوماتك في البرمجة والتقنية، اصعد سلم الجوائز وحاول الوصول إلى المليون! 🏆
+   </p>
+   <button class="primary-btn" onclick="showName()">🚀 ابدأ التحدي</button>
   </div>
-
+ </div>
 </section>
 
+<!-- الاسم -->
+<section id="nameScreen" class="screen">
+ <div class="name-card glass">
+  <div style="font-size:55px">👨‍💻</div>
+  <h2>من هو المبرمج؟</h2>
+  <p class="subtitle">اكتب اسمك لنبدأ التحدي</p>
 
-<!-- إدخال الاسم -->
-<section id="name" class="screen">
+  <input id="nameInput" class="name-input"
+   maxlength="25"
+   placeholder="اكتب اسمك هنا...">
 
-  <div class="card">
-
-    <div class="logo" style="font-size:34px">
-      جاهز يا مبرمج؟
-    </div>
-
-    <p class="subtitle">
-      اكتب اسمك لنبدأ الرحلة.
-    </p>
-
-    <div class="form">
-
-      <label class="label" for="nameInput">
-        اسم اللاعب
-      </label>
-
-      <input
-        id="nameInput"
-        maxlength="30"
-        placeholder="مثال: أحمد"
-        autocomplete="off"
-      >
-
-      <br><br>
-
-      <button class="btn wide" onclick="startGame()">
-        دخول اللعبة
-      </button>
-
-    </div>
-
-  </div>
-
+  <button class="primary-btn" onclick="startGame()">دخول التحدي 🎮</button>
+  <br>
+  <button class="secondary-btn" style="margin-top:12px" onclick="showScreen('startScreen')">
+   رجوع
+  </button>
+ </div>
 </section>
-
-
-<!-- المقدمة -->
-<section id="intro" class="screen">
-
-  <div class="card center">
-
-    <div class="pill">
-      المهمة بدأت
-    </div>
-
-    <h1 style="font-size:clamp(32px,7vw,62px);margin:18px 0 8px">
-      مرحباً <span id="introName"></span> 👋
-    </h1>
-
-    <p class="small" style="font-size:19px">
-      أجب عن الأسئلة، استخدم وسائل المساعدة بحكمة،
-      وحاول الوصول إلى 1,000,000.
-    </p>
-
-    <button class="btn" onclick="show('ladder')">
-      عرض سلم الجوائز
-    </button>
-
-  </div>
-
-</section>
-
-
-<!-- سلم الجوائز -->
-<section id="ladder" class="screen">
-
-  <div class="card">
-
-    <div class="topbar">
-
-      <span class="pill">
-        🏆 سلم الجوائز
-      </span>
-
-      <span id="ladderPlayer" class="player"></span>
-
-    </div>
-
-    <div class="levels" id="levels"></div>
-
-    <br>
-
-    <button class="btn wide" onclick="beginQuestion()">
-      ابدأ السؤال الأول
-    </button>
-
-  </div>
-
-</section>
-
 
 <!-- اللعبة -->
-<section id="game" class="screen">
+<section id="gameScreen" class="screen">
+ <div class="container">
 
-  <div class="game">
-
-    <div class="card">
-
-      <div class="topbar">
-
-        <span class="player">
-          👨‍💻 <b id="gamePlayer"></b>
-        </span>
-
-        <span class="money" id="money">
-          0
-        </span>
-
-        <button
-          class="btn secondary"
-          style="padding:9px 13px"
-          onclick="toggleMute()"
-          id="muteBtn"
-        >
-          🔊
-        </button>
-
-      </div>
-
-      <div class="timer">
-        <i id="timerBar"></i>
-      </div>
-
-      <div id="questionNo" class="small center"></div>
-
-      <div id="question" class="question"></div>
-
-      <div id="answers" class="answers"></div>
-
-      <div class="lifelines">
-
-        <button
-          class="btn secondary life"
-          id="fifty"
-          onclick="useFifty()"
-        >
-          50:50
-        </button>
-
-        <button
-          class="btn secondary life"
-          id="hint"
-          onclick="useHint()"
-        >
-          💡 تلميح
-        </button>
-
-        <button
-          class="btn secondary life"
-          id="poll"
-          onclick="usePoll()"
-        >
-          📊 تصويت
-        </button>
-
-        <button
-          class="btn secondary life"
-          id="swap"
-          onclick="swapQuestion()"
-        >
-          🔄 تبديل
-        </button>
-
-      </div>
-
-    </div>
-
+  <div class="topbar">
+   <div class="badge">👤 <span id="playerName"></span></div>
+   <div>
+    <button class="sound-btn" onclick="toggleSound()" id="soundBtn">🔊</button>
+   </div>
   </div>
 
-</section>
+  <div class="ladder-layout">
 
+   <aside class="ladder glass">
+    <h3>🏆 سلم الجوائز</h3>
+    <div id="ladderList"></div>
+   </aside>
+
+   <main class="game-panel glass">
+
+    <div class="level" id="levelText"></div>
+
+    <div class="timer-wrap" id="timerWrap">
+     <div class="timer" id="timer">30</div>
+    </div>
+
+    <div class="question" id="question"></div>
+
+    <div class="answers" id="answers"></div>
+
+    <div class="lifelines">
+     <button class="life" id="life5050" onclick="use5050()">50:50</button>
+     <button class="life" id="lifeHint" onclick="useHint()">💡 تلميح</button>
+     <button class="life" id="lifePoll" onclick="usePoll()">👥 الجمهور</button>
+     <button class="life" id="lifeSwap" onclick="useSwap()">🔄 تبديل</button>
+    </div>
+
+    <div class="progress">
+     <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+   </main>
+  </div>
+ </div>
+</section>
 
 <!-- دولاب الحظ -->
-<section id="wheel" class="screen">
+<section id="wheelScreen" class="screen">
+ <div class="wheel-card glass">
+  <div style="font-size:45px">🎡</div>
+  <h2>دولاب الحظ</h2>
+  <p class="subtitle">لقد وصلت إلى مرحلة خاصة! أدر العجلة.</p>
 
-  <div class="card wheel-wrap">
+  <div class="pointer"></div>
+  <div class="wheel" id="wheel"></div>
 
-    <div class="pill">
-      🎡 جائزة إضافية
-    </div>
+  <div class="wheel-result" id="wheelResult">اضغط لتدوير العجلة</div>
 
-    <h2>
-      دولاب الحظ
-    </h2>
-
-    <div class="arrow">
-      ▼
-    </div>
-
-    <div id="wheel" class="wheel"></div>
-
-    <h3 id="wheelResult">
-      اضغط لتدوير الدولاب
-    </h3>
-
-    <button
-      class="btn"
-      onclick="spinWheel()"
-      id="spinBtn"
-    >
-      لف الدولاب
-    </button>
-
-  </div>
-
+  <button class="primary-btn" id="spinBtn" onclick="spinWheel()">🎡 أدر العجلة</button>
+ </div>
 </section>
-
 
 <!-- المليون -->
-<section id="million" class="screen">
+<section id="millionScreen" class="screen">
+ <div class="million-card glass">
+  <div style="font-size:55px">👑</div>
+  <h2>الجولة النهائية</h2>
+  <div class="million-number">1,000,000</div>
+  <p class="subtitle">سؤال واحد يفصلك عن المليون!</p>
 
-  <div class="card center">
+  <div class="million-question" id="millionQuestion"></div>
+  <div class="answers" id="millionAnswers"></div>
 
-    <div class="pill">
-      👑 الجولة النهائية
-    </div>
-
-    <div class="million">
-      1,000,000
-    </div>
-
-    <p class="small">
-      وصلت إلى السؤال النهائي.
-      إجابة صحيحة تعني الفوز بالجائزة الكبرى!
-    </p>
-
-    <button
-      class="btn yellow"
-      onclick="finalQuestion()"
-    >
-      أريد المليون
-    </button>
-
-  </div>
-
+  <button class="secondary-btn" style="margin-top:22px" onclick="giveUpMillion()">
+   الانسحاب
+  </button>
+ </div>
 </section>
-
 
 <!-- النتائج -->
-<section id="results" class="screen">
+<section id="resultScreen" class="screen">
+ <div class="result-card glass">
+  <div class="trophy" id="resultTrophy">🏆</div>
+  <h1 id="resultTitle">أحسنت!</h1>
+  <div class="result-name" id="resultName"></div>
+  <div class="result-money" id="resultMoney"></div>
 
-  <div class="card center result">
-
-    <div class="pill">
-      🏁 انتهى التحدي
-    </div>
-
-    <h2 id="resultTitle"></h2>
-
-    <div class="score" id="resultScore"></div>
-
-    <p class="small" id="resultText"></p>
-
-    <div class="row">
-
-      <button class="btn" onclick="location.reload()">
-        إعادة اللعب
-      </button>
-
-      <button class="btn secondary" onclick="show('start')">
-        الصفحة الرئيسية
-      </button>
-
-    </div>
-
+  <div class="stats">
+   <div class="stat">
+    <strong id="resultLevel">0</strong>
+    <span>المستوى</span>
+   </div>
+   <div class="stat">
+    <strong id="resultCorrect">0</strong>
+    <span>إجابات صحيحة</span>
+   </div>
+   <div class="stat">
+    <strong id="resultPercent">0%</strong>
+    <span>نسبة النجاح</span>
+   </div>
   </div>
 
+  <p id="bestScore" class="subtitle"></p>
+
+  <button class="primary-btn" onclick="restartGame()">🔄 العب مرة أخرى</button>
+ </div>
 </section>
 
-
-<div id="toast" class="toast"></div>
-
+<!-- النافذة -->
+<div class="overlay" id="modalOverlay">
+ <div class="modal glass">
+  <h2 id="modalTitle"></h2>
+  <p id="modalText"></p>
+  <button class="primary-btn" onclick="closeModal()">متابعة</button>
+ </div>
 </div>
 
-
 <script>
+/* =========================
+   البيانات
+========================= */
 
-const prizes = [
-  100,
-  200,
-  300,
-  500,
+const prizes=[
   1000,
   2000,
-  4000,
-  8000,
-  16000,
-  32000,
-  64000,
-  125000,
+  5000,
+  10000,
+  20000,
+  50000,
+  100000,
+  150000,
   250000,
   500000,
   1000000
 ];
 
-const safe = [4,9];
-
-const questions = [
-
-{
-  q:"أي لغة تُستخدم أساساً لبناء هيكل صفحات الويب؟",
+const questions=[
+ {
+  q:"ما اللغة التي تستخدم لبناء هيكل صفحات الويب؟",
   a:["HTML","Python","SQL","C++"],
-  c:0,
-  h:"هي ليست لغة برمجة تقليدية، بل لغة توصيف."
-},
-
-{
-  q:"ما الوسم المستخدم لإنشاء رابط في HTML؟",
-  a:["<link>","<a>","<url>","<href>"],
-  c:1,
-  h:"يبدأ بحرف a."
-},
-
-{
-  q:"أي خاصية CSS تغيّر لون النص؟",
-  a:["background","font-size","color","text-style"],
-  c:2,
-  h:"اسمها يعني اللون بالإنجليزية."
-},
-
-{
-  q:"ما الذي يرمز إليه CSS؟",
-  a:[
-    "Computer Style System",
-    "Cascading Style Sheets",
-    "Creative Script Syntax",
-    "Code Styling Service"
-  ],
-  c:1,
-  h:"كلمة Sheets موجودة في الاسم."
-},
-
-{
-  q:"أي لغة تُستخدم كثيراً لإضافة التفاعل إلى صفحات الويب؟",
+  c:0
+ },
+ {
+  q:"ما اللغة المستخدمة عادةً لإضافة التفاعل إلى صفحات الويب؟",
   a:["JavaScript","HTML","CSS","XML"],
-  c:0,
-  h:"اسمها يبدأ بـ Java."
-},
-
-{
-  q:"ما ناتج 2 + 3 × 4؟",
-  a:["20","14","24","10"],
-  c:1,
-  h:"نفّذ الضرب قبل الجمع."
-},
-
-{
-  q:"أي نوع بيانات يمثل true أو false؟",
-  a:["String","Number","Boolean","Array"],
-  c:2,
-  h:"الاسم مشتق من قيمة منطقية."
-},
-
-{
-  q:"أي رمز يُستخدم غالباً للتعليق في JavaScript لسطر واحد؟",
-  a:["##","//","<!--","**"],
-  c:1,
-  h:"رمزان مائلان."
-},
-
-{
-  q:"ما وظيفة localStorage في المتصفح؟",
-  a:[
-    "تشغيل الفيديو",
-    "تخزين بيانات محلية",
-    "إنشاء صور",
-    "تسريع الإنترنت"
-  ],
-  c:1,
-  h:"الاسم نفسه يشير إلى التخزين المحلي."
-},
-
-{
-  q:"أي من التالي مصفوفة في JavaScript؟",
-  a:[
-    "{1,2,3}",
-    "[1,2,3]",
-    "(1,2,3)",
-    "<1,2,3>"
-  ],
-  c:1,
-  h:"المصفوفات تستخدم الأقواس المربعة."
-},
-
-{
-  q:"ما الامتداد الشائع لملف JavaScript؟",
-  a:[".css",".html",".js",".java"],
-  c:2,
-  h:"هو أول حرفين من JavaScript تقريباً."
-},
-
-{
-  q:"أي أداة تستخدم لفحص أخطاء JavaScript في المتصفح؟",
-  a:[
-    "DevTools/Console",
-    "Paint",
-    "Calculator",
-    "Notepad فقط"
-  ],
-  c:0,
-  h:"ابحث عن Console ضمن أدوات المطور."
-},
-
-{
-  q:"ما المقصود بـ API؟",
-  a:[
-    "واجهة برمجة التطبيقات",
-    "ملف صور",
-    "لغة تصميم",
-    "نظام تشغيل"
-  ],
-  c:0,
-  h:"الحرف P يعني Programming."
-},
-
-{
-  q:"ما أفضل وصف للمتغير variable؟",
-  a:[
-    "مكان لتخزين قيمة",
-    "صورة",
-    "صفحة ويب",
-    "مؤثر صوتي"
-  ],
-  c:0,
-  h:"يمكن أن تتغير القيمة المخزنة فيه."
-},
-
-{
-  q:"ما الهدف الأساسي من اختبار البرنامج؟",
-  a:[
-    "زيادة حجم الملف",
-    "اكتشاف الأخطاء وتحسين الجودة",
-    "تغيير اسم المشروع",
-    "إبطاء التطبيق"
-  ],
-  c:1,
-  h:"الاختبار يبحث عن المشكلات قبل المستخدم."
-},
-
-{
-  q:"أي جملة شرطية شائعة في JavaScript؟",
-  a:["if","when","checkonly","chooseif"],
-  c:0,
-  h:"تبدأ بها الشروط في JavaScript."
-},
-
-{
-  q:"أي رمز يستخدم للمقارنة الصارمة في JavaScript؟",
-  a:["=","==","===","=>"],
-  c:2,
-  h:"ثلاث علامات مساواة."
-},
-
-{
-  q:"ما وظيفة الدالة function؟",
-  a:[
-    "تجميع أوامر قابلة لإعادة الاستخدام",
-    "حذف الإنترنت",
-    "تغيير نظام التشغيل",
-    "ضغط الشاشة"
-  ],
-  c:0,
-  h:"تساعد على إعادة استخدام الكود."
-},
-
-{
-  q:"ما معنى Debugging؟",
-  a:[
-    "تصميم شعار",
-    "اكتشاف وإصلاح الأخطاء",
-    "تحميل لعبة",
-    "ترجمة النص"
-  ],
-  c:1,
-  h:"Bug تعني حشرة/خطأ برمجي."
-},
-
-{
-  q:"أي عنصر HTML مناسب لعنوان رئيسي؟",
-  a:[
-    "<p>",
-    "<h1>",
-    "<img>",
-    "<main-title>"
-  ],
-  c:1,
-  h:"أكبر عنوان قياسي يبدأ بـ h1."
-}
-
+  c:0
+ },
+ {
+  q:"ماذا تعني CSS؟",
+  a:["Cascading Style Sheets","Computer Style System","Creative Software Syntax","Code Styling System"],
+  c:0
+ },
+ {
+  q:"أي مما يلي يعتبر نظام تشغيل؟",
+  a:["Linux","HTML","JavaScript","MySQL"],
+  c:0
+ },
+ {
+  q:"ما وظيفة المتغير في البرمجة؟",
+  a:["تخزين قيمة","إيقاف الحاسوب","حذف الإنترنت","تصميم الشاشة فقط"],
+  c:0
+ },
+ {
+  q:"أي رمز يستخدم غالبًا لكتابة تعليق في JavaScript لسطر واحد؟",
+  a:["//","##","<!--","**"],
+  c:0
+ },
+ {
+  q:"ما اسم الحلقة التي تكرر التعليمات طالما الشرط صحيح؟",
+  a:["while","print","input","return"],
+  c:0
+ },
+ {
+  q:"ما المقصود بـ Bug في البرمجة؟",
+  a:["خطأ في البرنامج","لغة برمجة","حاسوب جديد","قاعدة بيانات"],
+  c:0
+ },
+ {
+  q:"أي مما يلي قاعدة بيانات؟",
+  a:["MySQL","HTML","CSS","Photoshop"],
+  c:0
+ },
+ {
+  q:"ما المقصود بـ URL؟",
+  a:["عنوان مورد على الإنترنت","نوع معالج","لغة برمجة","نظام تشغيل"],
+  c:0
+ },
+ {
+  q:"ما وظيفة المتصفح؟",
+  a:["عرض مواقع الويب","تجميع الحاسوب","تصنيع المعالج","شحن البطارية"],
+  c:0
+ },
+ {
+  q:"أي من الآتي لغة برمجة؟",
+  a:["Python","HTML","CSS","JPEG"],
+  c:0
+ },
+ {
+  q:"ما الوحدة التي تقيس سرعة المعالج عادةً؟",
+  a:["GHz","GB","Pixel","Volt"],
+  c:0
+ },
+ {
+  q:"ماذا تعني CPU؟",
+  a:["وحدة المعالجة المركزية","ذاكرة الرسوميات","قرص التخزين","بطاقة الشبكة"],
+  c:0
+ },
+ {
+  q:"أي جهاز يستخدم لإدخال النصوص إلى الحاسوب؟",
+  a:["لوحة المفاتيح","الشاشة","السماعة","جهاز العرض"],
+  c:0
+ },
+ {
+  q:"ما وظيفة RAM؟",
+  a:["تخزين مؤقت للبيانات أثناء التشغيل","تشغيل الصوت فقط","الاتصال بالطابعة فقط","عرض الصور"],
+  c:0
+ },
+ {
+  q:"ما المقصود بالخوارزمية؟",
+  a:["خطوات مرتبة لحل مشكلة","نوع شاشة","لغة برمجة فقط","ملف صوتي"],
+  c:0
+ },
+ {
+  q:"أي قيمة من التالية منطقية Boolean؟",
+  a:["true","100","Hello","3.14"],
+  c:0
+ },
+ {
+  q:"ما الأمر المستخدم غالبًا لإظهار قيمة في JavaScript؟",
+  a:["console.log()","show.html","display.css","printscreen()"],
+  c:0
+ },
+ {
+  q:"ما الامتداد الشائع لملف HTML؟",
+  a:[".html",".jpg",".mp3",".exe"],
+  c:0
+ }
 ];
 
+/* =========================
+   المتغيرات
+========================= */
 
-let player = "";
-let level = 0;
-
-let used = {
-  fifty:false,
-  hint:false,
-  poll:false,
-  swap:false
+let player="";
+let index=0;
+let correctCount=0;
+let timer=null;
+let timeLeft=30;
+let locked=false;
+let sound=true;
+let used={
+ f:false,
+ h:false,
+ p:false,
+ s:false
 };
 
-let current = null;
-let locked = false;
-let timer = null;
-let muted = false;
+/* =========================
+   أدوات عامة
+========================= */
 
-
-const $ = id => document.getElementById(id);
-
-
-function show(id){
-
-  document
-    .querySelectorAll(".screen")
-    .forEach(s => s.classList.remove("active"));
-
-  $(id).classList.add("active");
+function showScreen(id){
+ document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+ document.getElementById(id).classList.add("active");
+ window.scrollTo(0,0);
 }
 
+function formatMoney(n){
+ return new Intl.NumberFormat("en-US").format(n);
+}
+
+function playTone(type="click"){
+ if(!sound) return;
+
+ try{
+  const ctx=new (window.AudioContext||window.webkitAudioContext)();
+  const osc=ctx.createOscillator();
+  const gain=ctx.createGain();
+
+  osc.connect(gain);
+  gain.connect(ctx.destination);
+
+  let freq=500;
+
+  if(type==="correct")freq=850;
+  if(type==="wrong")freq=180;
+  if(type==="win")freq=1100;
+
+  osc.frequency.value=freq;
+  osc.type="sine";
+
+  gain.gain.setValueAtTime(.0001,ctx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(.12,ctx.currentTime+.03);
+  gain.gain.exponentialRampToValueAtTime(.0001,ctx.currentTime+.35);
+
+  osc.start();
+  osc.stop(ctx.currentTime+.36);
+ }catch(e){}
+}
+
+function toggleSound(){
+ sound=!sound;
+ document.getElementById("soundBtn").textContent=sound?"🔊":"🔇";
+ localStorage.setItem("programmerSound",sound?"1":"0");
+}
+
+function openModal(title,text){
+ document.getElementById("modalTitle").textContent=title;
+ document.getElementById("modalText").textContent=text;
+ document.getElementById("modalOverlay").classList.add("show");
+}
+
+function closeModal(){
+ document.getElementById("modalOverlay").classList.remove("show");
+}
+
+/* =========================
+   البداية
+========================= */
+
+function showName(){
+ playTone();
+ showScreen("nameScreen");
+ setTimeout(()=>document.getElementById("nameInput").focus(),200);
+}
 
 function startGame(){
+ const input=document.getElementById("nameInput").value.trim();
 
-  player =
-    $("nameInput").value.trim() ||
-    "المبرمج الصغير";
+ if(!input){
+  openModal("اكتب اسمك أولًا ✍️","من فضلك اكتب اسم اللاعب حتى نبدأ التحدي.");
+  return;
+ }
 
-  level = 0;
+ player=input;
+ document.getElementById("playerName").textContent=player;
 
-  used = {
-    fifty:false,
-    hint:false,
-    poll:false,
-    swap:false
-  };
+ index=0;
+ correctCount=0;
+ locked=false;
 
-  $("introName").textContent = player;
-  $("ladderPlayer").textContent = player;
-  $("gamePlayer").textContent = player;
+ used={f:false,h:false,p:false,s:false};
 
-  renderLevels();
+ resetLifeButtons();
+ buildLadder();
 
-  show("intro");
+ showScreen("gameScreen");
+ loadQuestion();
 }
 
-
-function renderLevels(){
-
-  $("levels").innerHTML =
-    prizes
-      .map((p,i) => {
-
-        return `
-          <div class="level
-            ${i===level ? "current " : ""}
-            ${safe.includes(i) ? "safe " : ""}
-            ${i<level ? "done" : ""}
-          ">
-            ${i+1}. ${p.toLocaleString("en-US")}
-          </div>
-        `;
-
-      })
-      .reverse()
-      .join("");
+function resetLifeButtons(){
+ document.querySelectorAll(".life").forEach(b=>b.classList.remove("used"));
 }
 
+/* =========================
+   سلم الجوائز
+========================= */
 
-function beginQuestion(){
+function buildLadder(){
+ const list=document.getElementById("ladderList");
 
-  level = 0;
+ list.innerHTML=prizes.map((p,i)=>{
+  const safe=(i===4||i===8);
+  const current=i===index;
 
-  loadQuestion();
+  return `
+   <div class="prize ${safe?"safe":""} ${current?"current":""}">
+    <span>${i+1}</span>
+    <span>${formatMoney(p)} ${safe?"⭐":""}</span>
+   </div>
+  `;
+ }).reverse().join("");
 }
 
-
-function randomQuestion(){
-
-  return questions[
-    Math.floor(Math.random()*questions.length)
-  ];
+function updateLadder(){
+ buildLadder();
 }
 
+/* =========================
+   الأسئلة
+========================= */
 
 function loadQuestion(){
+ clearInterval(timer);
 
-  locked = false;
+ if(index>=9){
+  startMillion();
+  return;
+ }
 
-  clearInterval(timer);
+ const q=questions[index % questions.length];
 
-  current = randomQuestion();
+ locked=false;
 
-  $("question").textContent = current.q;
-
-  $("questionNo").textContent =
-    `السؤال ${level+1} من 15`;
-
-  $("money").textContent =
-    (level ? prizes[level-1] : 0)
-    .toLocaleString("en-US")
-    + " نقطة";
-
-
-  $("answers").innerHTML =
-    current.a
-      .map((x,i) => {
-
-        return `
-          <button
-            class="answer"
-            onclick="answer(${i})"
-          >
-            ${String.fromCharCode(65+i)}.
-            ${escapeHtml(x)}
-          </button>
-        `;
-
-      })
-      .join("");
-
-
-  $("fifty").disabled = used.fifty;
-  $("hint").disabled = used.hint;
-  $("poll").disabled = used.poll;
-  $("swap").disabled = used.swap;
-
-
-  $("timerBar").style.transition = "none";
-  $("timerBar").style.width = "100%";
-
-  void $("timerBar").offsetWidth;
-
-  $("timerBar").style.transition =
-    "width 30s linear";
-
-  $("timerBar").style.width = "0%";
-
-
-  timer = setInterval(() => {
-
-    if(
-      $("timerBar").getBoundingClientRect().width <= 1
-    ){
-
-      clearInterval(timer);
-
-      answer(-1);
-
-    }
-
-  },250);
-
-
-  show("game");
-}
-
-
-function escapeHtml(s){
-
-  return s.replace(
-    /[&<>"']/g,
-    m => ({
-      "&":"&amp;",
-      "<":"&lt;",
-      ">":"&gt;",
-      '"':"&quot;",
-      "'":"&#039;"
-    }[m])
-  );
-
-}
-
-
-function answer(i){
-
-  if(locked) return;
-
-  locked = true;
-
-  clearInterval(timer);
-
-  const buttons =
-    [...document.querySelectorAll(".answer")];
-
-  buttons.forEach(b => b.disabled = true);
-
-
-  if(i === current.c){
-
-    buttons[i]?.classList.add("correct");
-
-    level++;
-
-    burst();
-
-    setTimeout(() => {
-
-      if(level >= 15){
-
-        show("million");
-
-      }else{
-
-        renderLevels();
-
-        if(level === 5 || level === 10){
-
-          $("spinBtn").disabled = false;
-
-          show("wheel");
-
-        }else{
-
-          loadQuestion();
-
-        }
-
-      }
-
-    },900);
-
-
-  }else{
-
-    if(i >= 0){
-
-      buttons[i].classList.add("wrong");
-
-    }
-
-    buttons[current.c].classList.add("correct");
-
-    setTimeout(
-      () => finish(false),
-      1100
-    );
-
-  }
-
-}
-
-
-function finish(win){
-
-  clearInterval(timer);
-
-  show("results");
-
-
-  const score =
-    win
-      ? 1000000
-      : (level > 0 ? prizes[level-1] : 0);
-
-
-  $("resultTitle").textContent =
-    win
-      ? "🏆 مبروك! فزت بالمليون"
-      : "أحسنت!";
-
-
-  $("resultScore").textContent =
-    `رصيدك النهائي: ${score.toLocaleString("en-US")}`;
-
-
-  $("resultText").textContent =
-    win
-      ? "لقد أثبت أنك مبرمج صغير رائع!"
-      : `وصلت إلى المستوى ${level} من 15. يمكنك المحاولة مرة أخرى وتحسين نتيجتك.`;
-
-
-  if(win){
-
-    burst(160);
-
-  }
-
-}
-
-
-function finalQuestion(){
-
-  const q = {
-
-    q:
-      "أي جزء من البرنامج يتحكم في منطق التفاعل مع المستخدم في صفحة الويب؟",
-
-    a:[
-      "JavaScript",
-      "HTML فقط",
-      "CSS فقط",
-      "الصورة الخلفية"
-    ],
-
-    c:0,
-
-    h:
-      "إنها لغة البرمجة التي تضيف السلوك والتفاعل."
-
-  };
-
-
-  current = q;
-
-  locked = false;
-
-
-  $("question").textContent = q.q;
-
-  $("questionNo").textContent =
-    "السؤال النهائي";
-
-
-  $("answers").innerHTML =
-    q.a
-      .map((x,i) => {
-
-        return `
-          <button
-            class="answer"
-            onclick="finalAnswer(${i})"
-          >
-            ${String.fromCharCode(65+i)}.
-            ${escapeHtml(x)}
-          </button>
-        `;
-
-      })
-      .join("
+ document.getElementById("levelText").textContent=
+  `السؤال ${index+1} من 9 • الجائزة ${formatMoney
