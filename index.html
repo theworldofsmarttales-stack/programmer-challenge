@@ -1,1339 +1,321 @@
-<!doctype html>
+```html
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>تحدي المبرمج الصغير 2.0 | AmnaTech</title>
-<meta name="description" content="تحدي المبرمج الصغير 2.0 - لعبة تعليمية مستقلة">
-
-<style>
-:root{
-  --bg:#07111f;
-  --panel:#0d1b2e;
-  --panel2:#10243d;
-  --text:#f8fafc;
-  --muted:#9fb2c8;
-  --cyan:#22d3ee;
-  --blue:#3b82f6;
-  --green:#22c55e;
-  --yellow:#facc15;
-  --red:#ef4444;
-  --line:#24415f;
-  --shadow:0 18px 50px rgba(0,0,0,.35);
-}
-
-*{
-  box-sizing:border-box;
-}
-
-html,body{
-  margin:0;
-  min-height:100%;
-  font-family:Tahoma,Arial,sans-serif;
-  background:
-    radial-gradient(circle at 50% -10%,#173b62 0,#07111f 45%,#030812 100%);
-  color:var(--text);
-}
-
-body{
-  overflow-x:hidden;
-}
-
-button,input{
-  font:inherit;
-}
-
-button{
-  cursor:pointer;
-}
-
-#app{
-  min-height:100vh;
-  position:relative;
-  overflow:hidden;
-}
-
-#stars{
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  opacity:.7;
-  background-image:
-    radial-gradient(#8bdcf0 1px,transparent 1px),
-    radial-gradient(#fff 1px,transparent 1px);
-  background-size:67px 67px,113px 113px;
-  background-position:0 0,31px 47px;
-  animation:drift 22s linear infinite;
-}
-
-@keyframes drift{
-  to{
-    background-position:67px 67px,144px 160px;
-  }
-}
-
-.screen{
-  display:none;
-  min-height:100vh;
-  position:relative;
-  z-index:1;
-  padding:28px 18px;
-}
-
-.screen.active{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-
-.card{
-  width:min(920px,100%);
-  background:
-    linear-gradient(
-      145deg,
-      rgba(16,36,61,.96),
-      rgba(7,17,31,.96)
-    );
-  border:1px solid var(--line);
-  border-radius:28px;
-  padding:28px;
-  box-shadow:var(--shadow);
-  backdrop-filter:blur(10px);
-}
-
-.logo{
-  font-size:clamp(28px,6vw,58px);
-  font-weight:900;
-  text-align:center;
-  letter-spacing:-1px;
-  color:#fff;
-  text-shadow:0 0 25px rgba(34,211,238,.35);
-}
-
-.logo span{
-  color:var(--cyan);
-}
-
-.subtitle{
-  text-align:center;
-  color:var(--muted);
-  font-size:18px;
-  margin:10px 0 28px;
-}
-
-.btn{
-  border:0;
-  border-radius:16px;
-  padding:14px 22px;
-  font-weight:800;
-  color:#fff;
-  background:linear-gradient(135deg,var(--blue),#7c3aed);
-  box-shadow:0 8px 25px rgba(59,130,246,.2);
-  transition:.18s;
-  min-height:50px;
-}
-
-.btn:hover{
-  transform:translateY(-2px);
-  filter:brightness(1.08);
-}
-
-.btn:disabled{
-  opacity:.45;
-  cursor:not-allowed;
-  transform:none;
-}
-
-.btn.secondary{
-  background:#18314f;
-  border:1px solid #315273;
-}
-
-.btn.green{
-  background:linear-gradient(135deg,#16a34a,#059669);
-}
-
-.btn.red{
-  background:linear-gradient(135deg,#dc2626,#be123c);
-}
-
-.btn.yellow{
-  background:linear-gradient(135deg,#ca8a04,#f59e0b);
-  color:#111827;
-}
-
-.btn.wide{
-  width:100%;
-}
-
-.center{
-  text-align:center;
-}
-
-.row{
-  display:flex;
-  gap:12px;
-  flex-wrap:wrap;
-  align-items:center;
-  justify-content:center;
-}
-
-input{
-  width:100%;
-  background:#07111f;
-  border:1px solid #315273;
-  color:#fff;
-  border-radius:14px;
-  padding:15px 17px;
-  outline:0;
-}
-
-input:focus{
-  border-color:var(--cyan);
-  box-shadow:0 0 0 3px rgba(34,211,238,.12);
-}
-
-.label{
-  display:block;
-  color:#b9c9dc;
-  margin-bottom:9px;
-  font-weight:700;
-}
-
-.form{
-  max-width:460px;
-  margin:auto;
-}
-
-.pill{
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-  padding:8px 12px;
-  border:1px solid var(--line);
-  border-radius:999px;
-  background:#09182a;
-  color:#bfeaf2;
-  font-size:13px;
-}
-
-.levels{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:9px;
-  margin-top:18px;
-}
-
-.level{
-  padding:11px;
-  border-radius:12px;
-  background:#09182a;
-  border:1px solid #1e3b58;
-  text-align:center;
-  color:#d8e5f3;
-  font-weight:700;
-}
-
-.level.current{
-  background:#123a63;
-  border-color:var(--cyan);
-  box-shadow:0 0 20px rgba(34,211,238,.12);
-}
-
-.level.safe{
-  color:#86efac;
-  border-color:#17663a;
-}
-
-.level.done{
-  opacity:.55;
-}
-
-.game{
-  width:min(1100px,100%);
-}
-
-.topbar{
-  display:flex;
-  justify-content:space-between;
-  gap:10px;
-  align-items:center;
-  margin-bottom:14px;
-  flex-wrap:wrap;
-}
-
-.money{
-  font-size:22px;
-  font-weight:900;
-  color:#fde68a;
-}
-
-.player{
-  color:#b8c7d9;
-}
-
-.question{
-  font-size:clamp(21px,3vw,31px);
-  line-height:1.7;
-  text-align:center;
-  margin:22px 0 24px;
-  font-weight:900;
-}
-
-.answers{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:13px;
-}
-
-.answer{
-  background:#0a1a2d;
-  border:1px solid #2b4d70;
-  color:#fff;
-  border-radius:17px;
-  padding:18px;
-  text-align:right;
-  transition:.18s;
-  min-height:66px;
-}
-
-.answer:hover{
-  background:#102944;
-  border-color:#4b79a6;
-}
-
-.answer.correct{
-  background:rgba(34,197,94,.2);
-  border-color:#22c55e;
-}
-
-.answer.wrong{
-  background:rgba(239,68,68,.2);
-  border-color:#ef4444;
-}
-
-.answer.dim{
-  opacity:.22;
-  pointer-events:none;
-}
-
-.lifelines{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:10px;
-  margin-top:16px;
-}
-
-.life{
-  font-size:14px;
-  padding:12px 8px;
-}
-
-.timer{
-  height:9px;
-  background:#07111f;
-  border-radius:99px;
-  overflow:hidden;
-  margin:8px 0 2px;
-}
-
-.timer i{
-  display:block;
-  height:100%;
-  width:100%;
-  background:var(--cyan);
-  transform-origin:right;
-}
-
-.wheel-wrap{
-  text-align:center;
-}
-
-.wheel{
-  width:min(310px,75vw);
-  aspect-ratio:1;
-  border-radius:50%;
-  margin:20px auto;
-  border:10px solid #e5e7eb;
-  box-shadow:
-    0 0 0 7px #1e3a5f,
-    0 0 45px rgba(34,211,238,.22);
-  display:grid;
-  place-items:center;
-  background:
-    conic-gradient(
-      #3b82f6 0 25%,
-      #8b5cf6 25% 50%,
-      #06b6d4 50% 75%,
-      #22c55e 75% 100%
-    );
-  position:relative;
-  transition:transform 3s cubic-bezier(.12,.7,.12,1);
-}
-
-.wheel:after{
-  content:"🎡";
-  font-size:64px;
-  background:#081426;
-  border:4px solid #fff;
-  border-radius:50%;
-  width:100px;
-  height:100px;
-  display:grid;
-  place-items:center;
-}
-
-.arrow{
-  font-size:32px;
-  color:#facc15;
-}
-
-.million{
-  font-size:clamp(45px,10vw,100px);
-  font-weight:1000;
-  color:#fde047;
-  text-shadow:0 0 35px rgba(250,204,21,.35);
-  text-align:center;
-}
-
-.result h2{
-  font-size:36px;
-  margin:8px 0;
-}
-
-.score{
-  font-size:26px;
-  color:#bae6fd;
-}
-
-.small{
-  color:var(--muted);
-  line-height:1.8;
-}
-
-.toast{
-  position:fixed;
-  bottom:20px;
-  left:50%;
-  transform:translateX(-50%) translateY(30px);
-  background:#081426;
-  border:1px solid #3b5878;
-  padding:12px 18px;
-  border-radius:13px;
-  opacity:0;
-  pointer-events:none;
-  transition:.25s;
-  z-index:20;
-}
-
-.toast.show{
-  opacity:1;
-  transform:translateX(-50%) translateY(0);
-}
-
-.confetti{
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  z-index:10;
-}
-
-@media(max-width:700px){
-
-  .card{
-    padding:20px;
-    border-radius:22px;
-  }
-
-  .answers{
-    grid-template-columns:1fr;
-  }
-
-  .lifelines{
-    grid-template-columns:1fr 1fr;
-  }
-
-  .levels{
-    grid-template-columns:1fr 1fr;
-  }
-
-  .question{
-    font-size:21px;
-  }
-}
-</style>
-</head>
-
-<body>
-
-<div id="app">
-
-<div id="stars"></div>
-
-<canvas id="confetti" class="confetti"></canvas>
-
-<!-- الصفحة الرئيسية -->
-<section id="start" class="screen active">
-
-  <div class="card center">
-
-    <div class="pill">
-      🎓 لعبة تعليمية مستقلة • AmnaTech
-    </div>
-
-    <div class="logo">
-      تحدي <span>المبرمج الصغير</span>
-    </div>
-
-    <div class="subtitle">
-      2.0 — اختبر معلوماتك البرمجية واصعد حتى المليون
-    </div>
-
-    <div class="row">
-      <button class="btn wide" onclick="show('name')">
-        ابدأ التحدي 🚀
-      </button>
-    </div>
-
-    <p class="small">
-      لا تحتاج اللعبة إلى خادم أو قاعدة بيانات.
-      تعمل مباشرة من ملف HTML واحد.
-    </p>
-
-  </div>
-
-</section>
-
-
-<!-- إدخال الاسم -->
-<section id="name" class="screen">
-
-  <div class="card">
-
-    <div class="logo" style="font-size:34px">
-      جاهز يا مبرمج؟
-    </div>
-
-    <p class="subtitle">
-      اكتب اسمك لنبدأ الرحلة.
-    </p>
-
-    <div class="form">
-
-      <label class="label" for="nameInput">
-        اسم اللاعب
-      </label>
-
-      <input
-        id="nameInput"
-        maxlength="30"
-        placeholder="مثال: أحمد"
-        autocomplete="off"
-      >
-
-      <br><br>
-
-      <button class="btn wide" onclick="startGame()">
-        دخول اللعبة
-      </button>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- المقدمة -->
-<section id="intro" class="screen">
-
-  <div class="card center">
-
-    <div class="pill">
-      المهمة بدأت
-    </div>
-
-    <h1 style="font-size:clamp(32px,7vw,62px);margin:18px 0 8px">
-      مرحباً <span id="introName"></span> 👋
-    </h1>
-
-    <p class="small" style="font-size:19px">
-      أجب عن الأسئلة، استخدم وسائل المساعدة بحكمة،
-      وحاول الوصول إلى 1,000,000.
-    </p>
-
-    <button class="btn" onclick="show('ladder')">
-      عرض سلم الجوائز
-    </button>
-
-  </div>
-
-</section>
-
-
-<!-- سلم الجوائز -->
-<section id="ladder" class="screen">
-
-  <div class="card">
-
-    <div class="topbar">
-
-      <span class="pill">
-        🏆 سلم الجوائز
-      </span>
-
-      <span id="ladderPlayer" class="player"></span>
-
-    </div>
-
-    <div class="levels" id="levels"></div>
-
-    <br>
-
-    <button class="btn wide" onclick="beginQuestion()">
-      ابدأ السؤال الأول
-    </button>
-
-  </div>
-
-</section>
-
-
-<!-- اللعبة -->
-<section id="game" class="screen">
-
-  <div class="game">
-
-    <div class="card">
-
-      <div class="topbar">
-
-        <span class="player">
-          👨‍💻 <b id="gamePlayer"></b>
-        </span>
-
-        <span class="money" id="money">
-          0
-        </span>
-
-        <button
-          class="btn secondary"
-          style="padding:9px 13px"
-          onclick="toggleMute()"
-          id="muteBtn"
-        >
-          🔊
-        </button>
-
-      </div>
-
-      <div class="timer">
-        <i id="timerBar"></i>
-      </div>
-
-      <div id="questionNo" class="small center"></div>
-
-      <div id="question" class="question"></div>
-
-      <div id="answers" class="answers"></div>
-
-      <div class="lifelines">
-
-        <button
-          class="btn secondary life"
-          id="fifty"
-          onclick="useFifty()"
-        >
-          50:50
-        </button>
-
-        <button
-          class="btn secondary life"
-          id="hint"
-          onclick="useHint()"
-        >
-          💡 تلميح
-        </button>
-
-        <button
-          class="btn secondary life"
-          id="poll"
-          onclick="usePoll()"
-        >
-          📊 تصويت
-        </button>
-
-        <button
-          class="btn secondary life"
-          id="swap"
-          onclick="swapQuestion()"
-        >
-          🔄 تبديل
-        </button>
-
-      </div>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- دولاب الحظ -->
-<section id="wheel" class="screen">
-
-  <div class="card wheel-wrap">
-
-    <div class="pill">
-      🎡 جائزة إضافية
-    </div>
-
-    <h2>
-      دولاب الحظ
-    </h2>
-
-    <div class="arrow">
-      ▼
-    </div>
-
-    <div id="wheel" class="wheel"></div>
-
-    <h3 id="wheelResult">
-      اضغط لتدوير الدولاب
-    </h3>
-
-    <button
-      class="btn"
-      onclick="spinWheel()"
-      id="spinBtn"
-    >
-      لف الدولاب
-    </button>
-
-  </div>
-
-</section>
-
-
-<!-- المليون -->
-<section id="million" class="screen">
-
-  <div class="card center">
-
-    <div class="pill">
-      👑 الجولة النهائية
-    </div>
-
-    <div class="million">
-      1,000,000
-    </div>
-
-    <p class="small">
-      وصلت إلى السؤال النهائي.
-      إجابة صحيحة تعني الفوز بالجائزة الكبرى!
-    </p>
-
-    <button
-      class="btn yellow"
-      onclick="finalQuestion()"
-    >
-      أريد المليون
-    </button>
-
-  </div>
-
-</section>
-
-
-<!-- النتائج -->
-<section id="results" class="screen">
-
-  <div class="card center result">
-
-    <div class="pill">
-      🏁 انتهى التحدي
-    </div>
-
-    <h2 id="resultTitle"></h2>
-
-    <div class="score" id="resultScore"></div>
-
-    <p class="small" id="resultText"></p>
-
-    <div class="row">
-
-      <button class="btn" onclick="location.reload()">
-        إعادة اللعب
-      </button>
-
-      <button class="btn secondary" onclick="show('start')">
-        الصفحة الرئيسية
-      </button>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<div id="toast" class="toast"></div>
-
-</div>
-
-
-<script>
-
-const prizes = [
-  100,
-  200,
-  300,
-  500,
-  1000,
-  2000,
-  4000,
-  8000,
-  16000,
-  32000,
-  64000,
-  125000,
-  250000,
-  500000,
-  1000000
-];
-
-const safe = [4,9];
-
-const questions = [
-
-{
-  q:"أي لغة تُستخدم أساساً لبناء هيكل صفحات الويب؟",
-  a:["HTML","Python","SQL","C++"],
-  c:0,
-  h:"هي ليست لغة برمجة تقليدية، بل لغة توصيف."
-},
-
-{
-  q:"ما الوسم المستخدم لإنشاء رابط في HTML؟",
-  a:["<link>","<a>","<url>","<href>"],
-  c:1,
-  h:"يبدأ بحرف a."
-},
-
-{
-  q:"أي خاصية CSS تغيّر لون النص؟",
-  a:["background","font-size","color","text-style"],
-  c:2,
-  h:"اسمها يعني اللون بالإنجليزية."
-},
-
-{
-  q:"ما الذي يرمز إليه CSS؟",
-  a:[
-    "Computer Style System",
-    "Cascading Style Sheets",
-    "Creative Script Syntax",
-    "Code Styling Service"
-  ],
-  c:1,
-  h:"كلمة Sheets موجودة في الاسم."
-},
-
-{
-  q:"أي لغة تُستخدم كثيراً لإضافة التفاعل إلى صفحات الويب؟",
-  a:["JavaScript","HTML","CSS","XML"],
-  c:0,
-  h:"اسمها يبدأ بـ Java."
-},
-
-{
-  q:"ما ناتج 2 + 3 × 4؟",
-  a:["20","14","24","10"],
-  c:1,
-  h:"نفّذ الضرب قبل الجمع."
-},
-
-{
-  q:"أي نوع بيانات يمثل true أو false؟",
-  a:["String","Number","Boolean","Array"],
-  c:2,
-  h:"الاسم مشتق من قيمة منطقية."
-},
-
-{
-  q:"أي رمز يُستخدم غالباً للتعليق في JavaScript لسطر واحد؟",
-  a:["##","//","<!--","**"],
-  c:1,
-  h:"رمزان مائلان."
-},
-
-{
-  q:"ما وظيفة localStorage في المتصفح؟",
-  a:[
-    "تشغيل الفيديو",
-    "تخزين بيانات محلية",
-    "إنشاء صور",
-    "تسريع الإنترنت"
-  ],
-  c:1,
-  h:"الاسم نفسه يشير إلى التخزين المحلي."
-},
-
-{
-  q:"أي من التالي مصفوفة في JavaScript؟",
-  a:[
-    "{1,2,3}",
-    "[1,2,3]",
-    "(1,2,3)",
-    "<1,2,3>"
-  ],
-  c:1,
-  h:"المصفوفات تستخدم الأقواس المربعة."
-},
-
-{
-  q:"ما الامتداد الشائع لملف JavaScript؟",
-  a:[".css",".html",".js",".java"],
-  c:2,
-  h:"هو أول حرفين من JavaScript تقريباً."
-},
-
-{
-  q:"أي أداة تستخدم لفحص أخطاء JavaScript في المتصفح؟",
-  a:[
-    "DevTools/Console",
-    "Paint",
-    "Calculator",
-    "Notepad فقط"
-  ],
-  c:0,
-  h:"ابحث عن Console ضمن أدوات المطور."
-},
-
-{
-  q:"ما المقصود بـ API؟",
-  a:[
-    "واجهة برمجة التطبيقات",
-    "ملف صور",
-    "لغة تصميم",
-    "نظام تشغيل"
-  ],
-  c:0,
-  h:"الحرف P يعني Programming."
-},
-
-{
-  q:"ما أفضل وصف للمتغير variable؟",
-  a:[
-    "مكان لتخزين قيمة",
-    "صورة",
-    "صفحة ويب",
-    "مؤثر صوتي"
-  ],
-  c:0,
-  h:"يمكن أن تتغير القيمة المخزنة فيه."
-},
-
-{
-  q:"ما الهدف الأساسي من اختبار البرنامج؟",
-  a:[
-    "زيادة حجم الملف",
-    "اكتشاف الأخطاء وتحسين الجودة",
-    "تغيير اسم المشروع",
-    "إبطاء التطبيق"
-  ],
-  c:1,
-  h:"الاختبار يبحث عن المشكلات قبل المستخدم."
-},
-
-{
-  q:"أي جملة شرطية شائعة في JavaScript؟",
-  a:["if","when","checkonly","chooseif"],
-  c:0,
-  h:"تبدأ بها الشروط في JavaScript."
-},
-
-{
-  q:"أي رمز يستخدم للمقارنة الصارمة في JavaScript؟",
-  a:["=","==","===","=>"],
-  c:2,
-  h:"ثلاث علامات مساواة."
-},
-
-{
-  q:"ما وظيفة الدالة function؟",
-  a:[
-    "تجميع أوامر قابلة لإعادة الاستخدام",
-    "حذف الإنترنت",
-    "تغيير نظام التشغيل",
-    "ضغط الشاشة"
-  ],
-  c:0,
-  h:"تساعد على إعادة استخدام الكود."
-},
-
-{
-  q:"ما معنى Debugging؟",
-  a:[
-    "تصميم شعار",
-    "اكتشاف وإصلاح الأخطاء",
-    "تحميل لعبة",
-    "ترجمة النص"
-  ],
-  c:1,
-  h:"Bug تعني حشرة/خطأ برمجي."
-},
-
-{
-  q:"أي عنصر HTML مناسب لعنوان رئيسي؟",
-  a:[
-    "<p>",
-    "<h1>",
-    "<img>",
-    "<main-title>"
-  ],
-  c:1,
-  h:"أكبر عنوان قياسي يبدأ بـ h1."
-}
-
-];
-
-
-let player = "";
-let level = 0;
-
-let used = {
-  fifty:false,
-  hint:false,
-  poll:false,
-  swap:false
-};
-
-let current = null;
-let locked = false;
-let timer = null;
-let muted = false;
-
-
-const $ = id => document.getElementById(id);
-
-
-function show(id){
-
-  document
-    .querySelectorAll(".screen")
-    .forEach(s => s.classList.remove("active"));
-
-  $(id).classList.add("active");
-}
-
-
-function startGame(){
-
-  player =
-    $("nameInput").value.trim() ||
-    "المبرمج الصغير";
-
-  level = 0;
-
-  used = {
-    fifty:false,
-    hint:false,
-    poll:false,
-    swap:false
-  };
-
-  $("introName").textContent = player;
-  $("ladderPlayer").textContent = player;
-  $("gamePlayer").textContent = player;
-
-  renderLevels();
-
-  show("intro");
-}
-
-
-function renderLevels(){
-
-  $("levels").innerHTML =
-    prizes
-      .map((p,i) => {
-
-        return `
-          <div class="level
-            ${i===level ? "current " : ""}
-            ${safe.includes(i) ? "safe " : ""}
-            ${i<level ? "done" : ""}
-          ">
-            ${i+1}. ${p.toLocaleString("en-US")}
-          </div>
-        `;
-
-      })
-      .reverse()
-      .join("");
-}
-
-
-function beginQuestion(){
-
-  level = 0;
-
-  loadQuestion();
-}
-
-
-function randomQuestion(){
-
-  return questions[
-    Math.floor(Math.random()*questions.length)
-  ];
-}
-
-
-function loadQuestion(){
-
-  locked = false;
-
-  clearInterval(timer);
-
-  current = randomQuestion();
-
-  $("question").textContent = current.q;
-
-  $("questionNo").textContent =
-    `السؤال ${level+1} من 15`;
-
-  $("money").textContent =
-    (level ? prizes[level-1] : 0)
-    .toLocaleString("en-US")
-    + " نقطة";
-
-
-  $("answers").innerHTML =
-    current.a
-      .map((x,i) => {
-
-        return `
-          <button
-            class="answer"
-            onclick="answer(${i})"
-          >
-            ${String.fromCharCode(65+i)}.
-            ${escapeHtml(x)}
-          </button>
-        `;
-
-      })
-      .join("");
-
-
-  $("fifty").disabled = used.fifty;
-  $("hint").disabled = used.hint;
-  $("poll").disabled = used.poll;
-  $("swap").disabled = used.swap;
-
-
-  $("timerBar").style.transition = "none";
-  $("timerBar").style.width = "100%";
-
-  void $("timerBar").offsetWidth;
-
-  $("timerBar").style.transition =
-    "width 30s linear";
-
-  $("timerBar").style.width = "0%";
-
-
-  timer = setInterval(() => {
-
-    if(
-      $("timerBar").getBoundingClientRect().width <= 1
-    ){
-
-      clearInterval(timer);
-
-      answer(-1);
-
-    }
-
-  },250);
-
-
-  show("game");
-}
-
-
-function escapeHtml(s){
-
-  return s.replace(
-    /[&<>"']/g,
-    m => ({
-      "&":"&amp;",
-      "<":"&lt;",
-      ">":"&gt;",
-      '"':"&quot;",
-      "'":"&#039;"
-    }[m])
-  );
-
-}
-
-
-function answer(i){
-
-  if(locked) return;
-
-  locked = true;
-
-  clearInterval(timer);
-
-  const buttons =
-    [...document.querySelectorAll(".answer")];
-
-  buttons.forEach(b => b.disabled = true);
-
-
-  if(i === current.c){
-
-    buttons[i]?.classList.add("correct");
-
-    level++;
-
-    burst();
-
-    setTimeout(() => {
-
-      if(level >= 15){
-
-        show("million");
-
-      }else{
-
-        renderLevels();
-
-        if(level === 5 || level === 10){
-
-          $("spinBtn").disabled = false;
-
-          show("wheel");
-
-        }else{
-
-          loadQuestion();
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>تحدي المبرمج الصغير 2.0 | AmnaTech</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&family=Tajawal:wght@500;700;900&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Cairo', 'sans-serif'],
+                        heading: ['Tajawal', 'sans-serif'],
+                    },
+                    colors: {
+                        navy: '#0B132B',
+                        space: '#1C2541',
+                        electric: '#00E5FF',
+                        gold: '#FFD700',
+                        neonPink: '#FF007F',
+                        success: '#00FA9A',
+                        danger: '#FF3333'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        :root {
+            --glow-blue: 0 0 15px rgba(0, 229, 255, 0.6);
+            --glow-gold: 0 0 20px rgba(255, 215, 0, 0.8);
+            --glow-red: 0 0 15px rgba(255, 51, 51, 0.6);
+            --glow-green: 0 0 15px rgba(0, 250, 154, 0.6);
         }
 
-      }
+        body {
+            background-color: theme('colors.navy');
+            color: white;
+            overflow: hidden; /* Prevent scrolling, full app feel */
+            user-select: none;
+        }
 
-    },900);
+        /* Background Animated Particles Grid */
+        #bg-canvas {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -2;
+            opacity: 0.4;
+        }
 
+        .studio-ring {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            border: 2px dashed rgba(0, 229, 255, 0.2);
+            z-index: -1;
+            animation: spin 30s linear infinite;
+        }
+        .ring-1 { width: 80vw; height: 80vw; border-top-color: theme('colors.electric'); animation-duration: 40s; }
+        .ring-2 { width: 60vw; height: 60vw; border-bottom-color: theme('colors.neonPink'); animation-direction: reverse; animation-duration: 25s; }
+        .ring-3 { width: 40vw; height: 40vw; border-left-color: theme('colors.gold'); animation-duration: 20s; }
 
-  }else{
+        @keyframes spin { 100% { transform: translate(-50%, -50%) rotate(360deg); } }
 
-    if(i >= 0){
+        /* UI Elements Styling */
+        .glass-panel {
+            background: rgba(28, 37, 65, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 229, 255, 0.3);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            border-radius: 1rem;
+        }
 
-      buttons[i].classList.add("wrong");
+        .btn-modern {
+            background: linear-gradient(135deg, rgba(28, 37, 65, 0.9), rgba(11, 19, 43, 0.9));
+            border: 2px solid theme('colors.electric');
+            color: white;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-modern::before {
+            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 229, 255, 0.4), transparent);
+            transition: left 0.5s;
+        }
+        .btn-modern:hover::before, .btn-modern:active::before { left: 100%; }
+        .btn-modern:hover, .btn-modern:active {
+            box-shadow: var(--glow-blue);
+            transform: translateY(-2px);
+            background: rgba(0, 229, 255, 0.1);
+        }
 
-    }
+        .btn-correct {
+            background: theme('colors.success') !important;
+            border-color: white !important;
+            color: black !important;
+            box-shadow: var(--glow-green) !important;
+            animation: pulse-green 1s infinite;
+        }
+        .btn-wrong {
+            background: theme('colors.danger') !important;
+            border-color: white !important;
+            box-shadow: var(--glow-red) !important;
+            animation: shake 0.5s;
+        }
 
-    buttons[current.c].classList.add("correct");
+        /* Animations */
+        @keyframes pulse-green { 0% { box-shadow: 0 0 0 0 rgba(0, 250, 154, 0.7); } 70% { box-shadow: 0 0 0 15px rgba(0, 250, 154, 0); } 100% { box-shadow: 0 0 0 0 rgba(0, 250, 154, 0); } }
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 20%, 60% { transform: translateX(-5px); } 40%, 80% { transform: translateX(5px); } }
+        @keyframes popIn { 0% { opacity: 0; transform: scale(0.8); } 100% { opacity: 1; transform: scale(1); } }
+        @keyframes fadeOut { 0% { opacity: 1; } 100% { opacity: 0; visibility: hidden; } }
+        @keyframes slideUp { 0% { opacity: 0; transform: translateY(50px); } 100% { opacity: 1; transform: translateY(0); } }
 
-    setTimeout(
-      () => finish(false),
-      1100
-    );
+        .animate-pop { animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+        .animate-slide-up { animation: slideUp 0.5s ease-out forwards; }
+        .hidden-screen { display: none !important; }
+        .fade-out { animation: fadeOut 0.5s forwards; }
 
-  }
+        /* Ladder Styling */
+        .ladder-step { transition: all 0.3s; }
+        .ladder-active { background: theme('colors.electric'); color: theme('colors.navy'); font-weight: bold; box-shadow: var(--glow-blue); transform: scale(1.05); }
+        .ladder-safe { border-right: 4px solid theme('colors.gold'); }
+        .ladder-passed { color: theme('colors.success'); opacity: 0.7; }
 
-}
+        /* Sorting Items */
+        .sort-item {
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .sort-item.selected {
+            background: theme('colors.electric');
+            color: theme('colors.navy');
+        }
 
+        /* Progress Bar */
+        .progress-bar-container { background: rgba(255,255,255,0.1); border-radius: 10px; overflow: hidden; }
+        .progress-bar { background: theme('colors.electric'); height: 10px; transition: width 0.3s linear; box-shadow: var(--glow-blue); }
 
-function finish(win){
+        /* Wheel of Fortune */
+        .wheel-container { position: relative; width: 250px; height: 250px; border-radius: 50%; border: 4px solid theme('colors.gold'); box-shadow: var(--glow-gold); overflow: hidden; transition: transform 4s cubic-bezier(0.2, 0.8, 0.2, 1); }
+        .wheel-slice { position: absolute; width: 50%; height: 50%; transform-origin: bottom right; display: flex; align-items: center; justify-content: center; padding-right: 20px; font-weight: bold; font-size: 0.8rem; color: white; }
+        .wheel-pointer { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 15px solid transparent; border-right: 15px solid transparent; border-top: 30px solid theme('colors.neonPink'); z-index: 10; filter: drop-shadow(0 0 5px rgba(255,0,127,0.8)); }
 
-  clearInterval(timer);
+        /* Modal */
+        .modal-overlay { background: rgba(11, 19, 43, 0.85); backdrop-filter: blur(5px); }
 
-  show("results");
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: rgba(0,0,0,0.1); }
+        ::-webkit-scrollbar-thumb { background: theme('colors.electric'); border-radius: 3px; }
 
+        /* Utilities */
+        .text-glow { text-shadow: var(--glow-blue); }
+        .text-glow-gold { text-shadow: var(--glow-gold); }
+    </style>
+</head>
+<body class="font-sans flex flex-col h-screen text-base md:text-lg">
 
-  const score =
-    win
-      ? 1000000
-      : (level > 0 ? prizes[level-1] : 0);
+    <canvas id="bg-canvas"></canvas>
+    <div class="studio-ring ring-1"></div>
+    <div class="studio-ring ring-2"></div>
+    <div class="studio-ring ring-3"></div>
 
+    <!-- Top Info Bar (Hidden initially) -->
+    <div id="top-bar" class="hidden-screen w-full p-2 md:p-4 glass-panel rounded-none border-t-0 border-l-0 border-r-0 flex justify-between items-center z-40 fixed top-0 left-0 right-0">
+        <div class="flex items-center gap-4">
+            <div class="font-heading font-bold text-electric text-sm md:text-xl" id="ui-player-name">اللاعب</div>
+            <div class="text-gold font-bold text-sm md:text-lg text-glow-gold">🏆 <span id="ui-score">0</span></div>
+            <div class="text-neonPink font-bold text-sm md:text-lg hidden md:block" id="ui-combo-container">🔥 Combo x<span id="ui-combo">0</span></div>
+        </div>
+        <div class="flex items-center gap-4">
+            <div class="text-success font-bold text-sm md:text-lg">❤️ <span id="ui-lives">3</span></div>
+            <div class="text-white font-bold text-sm md:text-lg bg-space px-3 py-1 rounded-full border border-electric">⏱️ <span id="ui-timer">--</span></div>
+            <button onclick="game.togglePause()" class="p-2 bg-space rounded-full hover:bg-electric hover:text-navy transition"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 9v6m4-6v6m7-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg></button>
+            <button onclick="audioManager.toggleMute()" id="mute-btn" class="p-2 bg-space rounded-full hover:bg-electric hover:text-navy transition"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg></button>
+        </div>
+    </div>
 
-  $("resultTitle").textContent =
-    win
-      ? "🏆 مبروك! فزت بالمليون"
-      : "أحسنت!";
+    <!-- Main Container -->
+    <main class="flex-1 relative w-full max-w-6xl mx-auto flex items-center justify-center p-4 pt-16 h-full">
 
+        <section id="screen-start" class="w-full max-w-2xl text-center glass-panel p-8 md:p-12 animate-pop">
+            <div class="mb-6 flex justify-center">
+                <svg class="w-24 h-24 text-electric drop-shadow-[0_0_15px_rgba(0,229,255,0.8)]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 9l3 3-3 3m5 0h3"></path></svg>
+            </div>
+            <h1 class="font-heading font-black text-4xl md:text-6xl text-transparent bg-clip-text bg-gradient-to-r from-electric to-gold mb-2 text-glow">تحدي المبرمج الصغير 2.0</h1>
+            <h2 class="text-xl md:text-2xl text-gray-300 mb-8">من المشكلة إلى الحل والذكاء الاصطناعي</h2>
+            <p class="text-lg mb-8 text-electric font-semibold">هل تستطيع التفكير مثل المبرمج؟</p>
+            
+            <div class="flex flex-col gap-4 max-w-sm mx-auto">
+                <button onclick="ui.showScreen('screen-name')" class="btn-modern py-4 text-xl font-bold rounded-xl flex items-center justify-center gap-2">
+                    ابدأ التحدي 🚀
+                </button>
+                <button onclick="ui.showRules()" class="bg-transparent border border-gray-500 hover:border-white text-gray-300 hover:text-white py-2 rounded-xl transition">
+                    طريقة اللعب ℹ️
+                </button>
+            </div>
+            <div class="mt-8 text-sm text-gray-500 font-heading">AmnaTech &copy; 2026 - مادة الحاسوب للصف التاسع</div>
+        </section>
 
-  $("resultScore").textContent =
-    `رصيدك النهائي: ${score.toLocaleString("en-US")}`;
+        <section id="screen-name" class="hidden-screen w-full max-w-md text-center glass-panel p-8 animate-pop">
+            <h2 class="font-heading text-3xl text-electric mb-6">اكتب اسمك أيها المبرمج الصغير</h2>
+            <input type="text" id="player-name-input" placeholder="اسمك هنا..." class="w-full bg-space border-2 border-electric rounded-xl p-4 text-center text-xl text-white outline-none focus:box-shadow-[0_0_15px_rgba(0,229,255,0.5)] mb-4 transition" maxlength="15">
+            <p id="name-error" class="text-danger text-sm mb-4 h-5"></p>
+            <button onclick="game.startCinematicIntro()" class="btn-modern w-full py-4 text-lg font-bold rounded-xl">دخول إلى التحدي</button>
+            <button onclick="ui.showScreen('screen-start')" class="mt-4 text-gray-400 hover:text-white text-sm">عودة</button>
+        </section>
 
+        <section id="screen-intro" class="hidden-screen w-full text-center flex flex-col items-center justify-center">
+            <div id="intro-countdown" class="text-8xl md:text-[150px] font-black text-electric text-glow-blue mb-8 animate-pop">3</div>
+            <div id="intro-text" class="text-3xl md:text-5xl font-heading text-gold opacity-0 transition-opacity duration-500"></div>
+        </section>
 
-  $("resultText").textContent =
-    win
-      ? "لقد أثبت أنك مبرمج صغير رائع!"
-      : `وصلت إلى المستوى ${level} من 15. يمكنك المحاولة مرة أخرى وتحسين نتيجتك.`;
+        <section id="screen-ladder" class="hidden-screen w-full max-w-lg glass-panel p-6 md:p-8 animate-slide-up flex flex-col h-[85vh]">
+            <h2 class="text-2xl font-bold text-center text-gold mb-4 font-heading border-b border-gray-600 pb-2">سلم المعرفة</h2>
+            <div class="flex-1 overflow-y-auto pr-2 flex flex-col-reverse" id="ladder-container">
+                <!-- Ladder steps injected by JS -->
+            </div>
+            <button onclick="game.loadNextQuestion()" class="btn-modern w-full py-3 mt-4 text-lg font-bold rounded-xl">التالي ➔</button>
+        </section>
 
+        <section id="screen-game" class="hidden-screen w-full max-w-4xl flex flex-col lg:flex-row gap-6 h-[85vh] lg:h-auto items-center">
+            
+            <!-- Left Side: Lifelines & Info (Desktop) / Top on Mobile -->
+            <aside class="w-full lg:w-1/4 flex flex-row lg:flex-col gap-2 md:gap-4 order-2 lg:order-1 justify-center glass-panel p-3">
+                <div class="text-center w-full mb-2 hidden lg:block">
+                    <div class="text-sm text-gray-400">المرحلة</div>
+                    <div class="text-2xl text-electric font-bold" id="current-level-display">1/15</div>
+                </div>
+                <!-- Lifelines -->
+                <button id="ll-5050" onclick="game.useLifeline('5050')" class="btn-modern flex-1 lg:flex-none py-2 px-1 rounded-lg text-sm md:text-base font-bold relative group">
+                    <span class="block text-xl md:text-2xl">✂️</span> 50:50
+                    <div class="absolute -top-10 left-1/2 transform -translate-x-1/2 bg-black text-xs p-1 rounded hidden group-hover:block whitespace-nowrap">حذف إجابتين</div>
+                </button>
+                <button id="ll-hint" onclick="game.useLifeline('hint')" class="btn-modern flex-1 lg:flex-none py-2 px-1 rounded-lg text-sm md:text-base font-bold relative group">
+                    <span class="block text-xl md:text-2xl">💡</span> تلميح
+                    <div class="absolute -top-10 left-1/2 transform -translate-x-1/2 bg-black text-xs p-1 rounded hidden group-hover:block whitespace-nowrap">تلميح ذكي</div>
+                </button>
+                <button id="ll-poll" onclick="game.useLifeline('poll')" class="btn-modern flex-1 lg:flex-none py-2 px-1 rounded-lg text-sm md:text-base font-bold relative group">
+                    <span class="block text-xl md:text-2xl">📊</span> تصويت
+                    <div class="absolute -top-10 left-1/2 transform -translate-x-1/2 bg-black text-xs p-1 rounded hidden group-hover:block whitespace-nowrap">رأي الجمهور</div>
+                </button>
+                <button id="ll-swap" onclick="game.useLifeline('swap')" class="btn-modern flex-1 lg:flex-none py-2 px-1 rounded-lg text-sm md:text-base font-bold relative group">
+                    <span class="block text-xl md:text-2xl">🔄</span> تبديل
+                    <div class="absolute -top-10 left-1/2 transform -translate-x-1/2 bg-black text-xs p-1 rounded hidden group-hover:block whitespace-nowrap">سؤال بديل</div>
+                </button>
+            </aside>
 
-  if(win){
+            <!-- Right Side: Question Area -->
+            <main class="w-full lg:w-3/4 flex flex-col gap-4 order-1 lg:order-2">
+                <div class="glass-panel p-6 md:p-8 flex-1 flex flex-col relative overflow-hidden">
+                    <!-- Progress Bar for Timer/Final Showdown -->
+                    <div class="progress-bar-container w-full absolute top-0 left-0">
+                        <div id="question-timer-bar" class="progress-bar w-full"></div>
+                    </div>
+                    
+                    <div class="flex justify-between items-center mb-4 mt-2">
+                        <span id="question-category" class="bg-electric text-navy px-3 py-1 rounded-full text-sm font-bold shadow-[0_0_10px_rgba(0,229,255,0.5)]">الفئة</span>
+                        <span id="question-value" class="text-gold font-bold">100 نقطة</span>
+                    </div>
 
-    burst(160);
+                    <h2 id="question-text" class="text-xl md:text-3xl font-heading font-bold mb-6 text-center leading-relaxed drop-shadow-md min-h-[80px] flex items-center justify-center">
+                        نص السؤال يظهر هنا...
+                    </h2>
 
-  }
+                    <div id="question-media" class="w-full flex justify-center mb-4 hidden">
+                        <!-- For flowchart SVG icons, code snippets, etc. -->
+                    </div>
 
-}
+                    <!-- Answer Area (Dynamic based on question type) -->
+                    <div id="answers-container" class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-auto">
+                        <!-- Buttons injected via JS -->
+                    </div>
+                </div>
+            </main>
+        </section>
 
+        
+        <!-- Wheel of Fortune -->
+        <section id="screen-wheel" class="hidden-screen w-full max-w-md text-center glass-panel p-8 flex flex-col items-center">
+            <h2 class="text-3xl font-heading text-neonPink text-glow mb-6">عجلة الحظ التعليمية 🎡</h2>
+            <div class="wheel-pointer"></div>
+            <div class="wheel-container mb-8" id="spin-wheel">
+                <!-- Slices injected by JS -->
+            </div>
+            <button onclick="game.spinWheel()" id="btn-spin" class="btn-modern px-8 py-3 text-xl font-bold rounded-full">أدر العجلة!</button>
+        </section>
 
-function finalQuestion(){
+        <!-- Millionaire Locks Screen -->
+        <section id="screen-million" class="hidden-screen w-full max-w-3xl glass-panel p-8 text-center">
+            <h2 class="text-4xl font-heading text-gold text-glow-gold mb-4">🏆 سؤال المليون 🏆</h2>
+            <p class="text-lg text-gray-300 mb-8">أكمل الخطوات البرمجية لفتح الأقفال وتحقيق اللقب!</p>
+            <div class="flex justify-center gap-2 md:gap-4 mb-8 text-3xl md:text-5xl" id="million-locks">
+                <!-- Locks injected by JS -->
+            </div>
+            <div id="million-subquestion" class="bg-space p-6 rounded-xl border border-electric mb-6 text-xl"></div>
+            <div id="million-answers" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+        </section>
 
-  const q = {
-
-    q:
-      "أي جزء من البرنامج يتحكم في منطق التفاعل مع المستخدم في صفحة الويب؟",
-
-    a:[
-      "JavaScript",
-      "HTML فقط",
-      "CSS فقط",
-      "الصورة الخلفية"
-    ],
-
-    c:0,
-
-    h:
-      "إنها لغة البرمجة التي تضيف السلوك والتفاعل."
-
-  };
-
-
-  current = q;
-
-  locked = false;
-
-
-  $("question").textContent = q.q;
-
-  $("questionNo").textContent =
-    "السؤال النهائي";
-
-
-  $("answers").innerHTML =
-    q.a
-      .map((x,i) => {
-
-        return `
-          <button
-            class="answer"
-            onclick="finalAnswer(${i})"
-          >
-            ${String.fromCharCode(65+i)}.
-            ${escapeHtml(x)}
-          </button>
-        `;
-
-      })
-      .join("
+        <!-- Results Screen -->
+        <section id="screen-results" class="hidden-screen w-full max-w-4xl glass-panel p-6 md:p-8 overflow-y-auto max-h-[90vh] animate-slide-up">
+            <h1 class="text-4xl md:text-5xl font-heading font-black text-center text-electric mb-2">🎉 نتيجة التحدي</h1>
+            <p id="res-msg" class="text-center text-xl text-gray-300 mb-8">انتهت الرحلة، دعنا نرى ما حققته!</p>
+            
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                <div class="bg-space p-4 rounded-xl text-center border border-gray-600">
+                    <div class="text-gray-400 text-sm">النقاط</div>
+                    <div id="res-score" class="text-2xl md:text-3xl font-bold text-gold">0</div>
+                </div>
+                <div class="bg-space p-4 rounded-xl text-center border border-gray-600">
+                    <div class="text-gray-400 text-sm">أعلى مرحلة</div>
+                    <div id="res-level" class="text-2xl md:text-3xl font-bold text-white">0</div>
+                </div>
+                <div class="bg-space p-4 rounded-xl text-center border border-gray-600">
